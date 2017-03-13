@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">FlipYourEnglish</string>
+    <string name="add_cards">Add cards</string>
+    <string name="view_cards">View cards</string>
+    <string name="help">Help</string>
 </resources>
