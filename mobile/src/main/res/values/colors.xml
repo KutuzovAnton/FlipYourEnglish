@@ -8,4 +8,6 @@
     <color name="green_dark">#159204</color>
     <color name="bright_green">#02D8B0</color>
     <color name="button_green">#10a54a</color>
+    <color name="blue">#c11c73ff</color>
+    <color name="gray">#61196bef</color>
 </resources>
