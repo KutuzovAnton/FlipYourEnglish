@@ -1,67 +1,73 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@drawable/ground"
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <View
-        android:layout_width="100dp"
-        android:layout_height="3dp"
-        android:background="@drawable/drop_shadow"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </View>
+
+
     <Button
         android:id="@+id/view_cards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_cards"
-        android:layout_below="@+id/add_cards"
+        android:textColor="@color/textColor"
+        android:textSize="30sp"
+        android:background="@drawable/button_style"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/blue"
-        android:textSize="30sp"
-        android:background="@drawable/button_style"
-    />
+        android:layout_alignParentEnd="true" />
+
     <View
-        android:layout_below="@id/view_cards"
-        android:layout_width="100dp"
+        android:id="@+id/view"
+        android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@drawable/drop_shadow"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </View>
+        android:background="@drawable/line_color"
+        android:layout_below="@+id/view_cards" />
+
     <Button
         android:id="@+id/add_cards"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_cards"
-        android:textColor="@color/blue"
+        android:textColor="@color/textColor"
         android:textSize="30sp"
         android:background="@drawable/button_style"
-        android:layout_alignParentTop="true"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/view"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-    <View
-        android:layout_below="@id/add_cards"
-        android:layout_width="100dp"
+
+    <View android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@drawable/drop_shadow"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:background="@drawable/line_color"
+        android:id="@+id/view2"
+        android:layout_below="@+id/add_cards" />
+
+    <Button
+        android:id="@+id/delete_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_cards"
+        android:textColor="@color/textColor"
+        android:textSize="30sp"
+        android:background="@drawable/button_style"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </View>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
 
 
 </RelativeLayout>

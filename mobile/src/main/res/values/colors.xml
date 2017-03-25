@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <!-- Green -->
     <color name="green_temp">#23A96E</color>
@@ -9,5 +9,16 @@
     <color name="bright_green">#02D8B0</color>
     <color name="button_green">#10a54a</color>
     <color name="blue">#c11c73ff</color>
-    <color name="gray">#61196bef</color>
+    <color name="textColor">#77ffe6</color>
+    <color name="black">#c1000000</color>
+    <color name="gray">#303030</color>
+
+    <color name="borderLow">#1be6c0</color>
+    <color name="borderHigh">#aefff0</color>
+    <color name="gradientStart">#77ffe6</color>
+    <color name="gradientEnd">#9affec</color>
+    <color name="text">#999</color>
+    <color name="shadow">#d4fff7</color>
+    <color name="lineColor">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
