@@ -1,16 +1,13 @@
 package com.fye.flipyourenglish.activities;
 
-import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
+
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.utils.FileWorker;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,12 +17,12 @@ import java.util.List;
 
 public class CardReader extends AppCompatActivity {
 
-
-    private static final int ROTATION_SPID = 700;
+    private static final int ROTATION_SPEED = 400;
+    private static final int TRANSLATION_SPEED = 400;
     private List<Card> cards;
-    private boolean isTranslate = true;
-    private int i = 0;
     private TextView textView;
+    private boolean isTranslate = true;
+    private int currentCardIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,46 +52,40 @@ public class CardReader extends AppCompatActivity {
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                ((TextView) findViewById(R.id.card)).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPID).withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((TextView) findViewById(R.id.card)).setRotationX(isTranslate ? 270 : -270);
-                        printWord();
-                        ((TextView) findViewById(R.id.card)).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPID);
-                    }
+                textView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
+                    textView.setRotationX(isTranslate ? 270 : -270);
+                    printWord();
+                    textView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
                 });
             }
         });
     }
 
     private void getNext() {
-        if(i == cards.size()-1)
-            i = 0;
+        if(currentCardIndex == cards.size()-1)
+            currentCardIndex = 0;
         else
-            i++;
+            currentCardIndex++;
     }
 
     private void getPrev() {
-        if(i == 0)
-            i = cards.size()-1;
+        if(currentCardIndex == 0)
+            currentCardIndex = cards.size()-1;
         else
-            i--;
+            currentCardIndex--;
     }
 
     private void translation(int size) {
         float x = textView.getX();
-        ((TextView)findViewById(R.id.card)).animate().translationXBy(size).setDuration(600).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                ((TextView)findViewById(R.id.card)).setX(-size);
-                printWord();
-                ((TextView)findViewById(R.id.card)).animate().translationXBy(size+x).setDuration(600);
-            }
+        textView.animate().translationXBy(size).setDuration(TRANSLATION_SPEED).withEndAction(() -> {
+            textView.setX(-size);
+            printWord();
+            textView.animate().translationXBy(size+x).setDuration(TRANSLATION_SPEED);
         });
     }
 
     private void printWord() {
-        ((TextView) findViewById(R.id.card)).setText(isTranslate ? cards.get(i).getWord1() : cards.get(i).getWord2());
+        textView.setText(isTranslate ? cards.get(currentCardIndex).getWord1() : cards.get(currentCardIndex).getWord2());
     }
 
 }

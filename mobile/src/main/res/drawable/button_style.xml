@@ -4,8 +4,8 @@
     <item android:state_focused="false">
         <shape >
             <gradient
-                android:startColor="@color/black"
-                android:endColor="@color/black"
+                android:startColor="@color/button_green"
+                android:endColor="@color/button_green"
                 android:angle="270" />
         </shape>
     </item>

@@ -28,8 +28,6 @@ import java.util.List;
 
 public class MenuActivity implements View.OnClickListener {
 
-    private final static File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/cards/");
-    private final static Gson gson = new GsonBuilder().create();
     private final Activity activity;
 
     public MenuActivity(Activity activity) {
