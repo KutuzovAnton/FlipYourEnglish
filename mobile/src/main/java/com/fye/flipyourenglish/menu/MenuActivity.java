@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.activities.CardReader;
+import com.fye.flipyourenglish.activities.CardRemover;
 import com.fye.flipyourenglish.activities.CardWriter;
 import com.fye.flipyourenglish.entities.Card;
 import com.google.gson.Gson;
@@ -44,6 +45,7 @@ public class MenuActivity implements View.OnClickListener {
                 activity.startActivity(new Intent(activity, CardWriter.class));
                 break;
             case R.id.delete_cards:
+                activity.startActivity(new Intent(activity, CardRemover.class));
                 break;
         }
     }

@@ -1,13 +1,17 @@
 package com.fye.flipyourenglish.activities;
 
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.utils.FileWorker;
+import com.fye.flipyourenglish.utils.Utils;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -42,12 +46,12 @@ public class CardReader extends AppCompatActivity {
         textView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 getNext();
-                translation(point.x);
+                Utils.translation(point.x, textView, () -> printWord());
             }
 
             public void onSwipeLeft() {
                 getPrev();
-                translation(-point.x);
+                Utils.translation(-point.x, textView, () -> printWord());
             }
 
             public void onClick() {
@@ -73,15 +77,6 @@ public class CardReader extends AppCompatActivity {
             currentCardIndex = cards.size()-1;
         else
             currentCardIndex--;
-    }
-
-    private void translation(int size) {
-        float x = textView.getX();
-        textView.animate().translationXBy(size).setDuration(TRANSLATION_SPEED).withEndAction(() -> {
-            textView.setX(-size);
-            printWord();
-            textView.animate().translationXBy(size+x).setDuration(TRANSLATION_SPEED);
-        });
     }
 
     private void printWord() {
