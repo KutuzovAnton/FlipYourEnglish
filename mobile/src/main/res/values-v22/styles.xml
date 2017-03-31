@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyButton" parent="android:Theme.DeviceDefault.Dialog.Alert">
+        <item name="colorControlHighlight">@color/bright_green</item>
+        <item name="colorButtonNormal">@color/green_dark</item>
+        <item name="android:colorBackground">@color/bright_green</item>
+        <item name="android:background">@color/bright_green</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

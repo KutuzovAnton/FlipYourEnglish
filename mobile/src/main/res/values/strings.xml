@@ -7,4 +7,5 @@
     <string name="second_word">Second word</string>
     <string name="first_word">First word</string>
     <string name="add_card">Add card</string>
+    <string name="select_cards">Select cards</string>
 </resources>

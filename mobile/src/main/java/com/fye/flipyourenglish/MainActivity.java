@@ -3,7 +3,7 @@ package com.fye.flipyourenglish;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fye.flipyourenglish.menu.MenuActivity;
+import com.fye.flipyourenglish.menu.MenuListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public void init() {
         findViewById(R.id.main)
                 .getTouchables()
-                .forEach(b -> b.setOnClickListener(new MenuActivity(this)));
+                .forEach(b -> b.setOnClickListener(new MenuListener(this)));
     }
 
 }

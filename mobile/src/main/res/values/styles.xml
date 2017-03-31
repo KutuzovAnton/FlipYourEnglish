@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -12,6 +12,9 @@
         <item name="colorControlHighlight">@color/bright_green</item>
         <item name="colorButtonNormal">@color/green_dark</item>
         <item name="android:colorBackground">@color/bright_green</item>
+        <item name="android:background">@color/bright_green</item>
     </style>
+
+    <style name="appThema" parent="Theme.AppCompat.Light" />
 
 </resources>

@@ -1,9 +1,7 @@
 package com.fye.flipyourenglish.activities;
 
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
