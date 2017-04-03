@@ -3,6 +3,7 @@ package com.fye.flipyourenglish.utils;
 import android.util.Log;
 
 import com.fye.flipyourenglish.entities.Card;
+import com.google.common.base.Objects;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ public class FileWorker {
             Log.e("Exception", "File read failed: " + e.toString());
         }
 
-        return Utils.gson.fromJson(text.toString(), new TypeToken<List<Card>>() {}.getType());
+        return Objects.firstNonNull(Utils.gson.fromJson(text.toString(), new TypeToken<List<Card>>() {}.getType()), new ArrayList<>());
     }
 
     public static void writeCard(File path, List<Card> card)
