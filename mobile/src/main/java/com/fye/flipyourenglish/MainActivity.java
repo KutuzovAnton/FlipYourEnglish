@@ -2,8 +2,12 @@ package com.fye.flipyourenglish;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.fye.flipyourenglish.menu.MenuListener;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,9 +20,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init() {
-        findViewById(R.id.main)
-                .getTouchables()
-                .forEach(b -> b.setOnClickListener(new MenuListener(this)));
+        ArrayList<View> touchables = findViewById(R.id.main).getTouchables();
+        for (View view : touchables) {
+            view.setOnClickListener(new MenuListener(this));
+        }
     }
 
 }

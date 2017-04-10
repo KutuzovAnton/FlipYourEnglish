@@ -36,7 +36,9 @@ public class CardSelector extends AppCompatActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        cards.forEach(card -> ((LinearLayout)findViewById(R.id.list_cards)).addView(createCard(card, point), lParams));
+        for(Card card: cards){
+            ((LinearLayout)findViewById(R.id.list_cards)).addView(createCard(card, point), lParams);
+        }
     }
 
     private TextView createCard(Card card, Point point) {
