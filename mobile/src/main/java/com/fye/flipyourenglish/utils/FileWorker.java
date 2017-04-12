@@ -3,6 +3,7 @@ package com.fye.flipyourenglish.utils;
 import android.util.Log;
 
 import com.fye.flipyourenglish.entities.Card;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,9 +22,14 @@ import java.util.List;
 
 public class FileWorker {
 
-    public static List<Card> readCards(File path)
+    public static List<Card> readCards(File path, boolean isActive)
     {
-        File file = new File(path,"cards/cards");
+        File file;
+        if(isActive)
+            file = new File(path, "activeCards/cards");
+        else
+            file = new File(path, "passiveCards/cards");
+
         StringBuilder text = new StringBuilder();
 
         try {
@@ -39,12 +45,17 @@ public class FileWorker {
             Log.e("Exception", "File read failed: " + e.toString());
         }
 
-        return Objects.firstNonNull(Utils.gson.fromJson(text.toString(), new TypeToken<List<Card>>() {}.getType()), new ArrayList<>());
+        return MoreObjects.firstNonNull(Utils.gson.fromJson(text.toString(), new TypeToken<List<Card>>() {}.getType()), new ArrayList<>());
     }
 
-    public static void writeCard(File path, List<Card> card)
+    public static void writeCard(File path, List<Card> card, boolean isActive)
     {
-        File filePath = new File(path, "cards");
+        File filePath;
+        if(isActive)
+            filePath = new File(path, "activeCards");
+        else
+            filePath = new File(path, "passiveCards");
+
         if(!filePath.exists())
             filePath.mkdir();
         File file = new File(filePath, "cards");

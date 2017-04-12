@@ -1,22 +1,18 @@
 package com.fye.flipyourenglish.activities;
 
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.fye.flipyourenglish.R;
-import com.fye.flipyourenglish.builders.TextViewBuilder;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.utils.FileWorker;
-import com.fye.flipyourenglish.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.fye.flipyourenglish.R.layout.activity_selecter_cards;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
@@ -24,57 +20,33 @@ import java.util.List;
 
 public class CardSelector extends AppCompatActivity {
 
-    private List<Card> cards;
-    private List<Card> selectCards;
+    private List<Card> passiveCards;
+    private List<Card> activeCards = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selecter_cards);
+        setContentView(activity_selecter_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir());
-        Point point = new Point();
-        getWindowManager().getDefaultDisplay().getSize(point);
-        LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        for(Card card: cards){
-            ((LinearLayout)findViewById(R.id.list_cards)).addView(createCard(card, point), lParams);
-        }
-    }
-
-    private TextView createCard(Card card, Point point) {
-        TextViewBuilder textViewBuilder = new TextViewBuilder(this);
-        TextView textView = textViewBuilder
-                .setText(card.getWord1() + " - " + card.getWord2())
-                .setSize(30)
-                .build();
-        textView.setOnClickListener(v -> {
-            int selectColor = getResources().getColor(R.color.blue);
-            if(((ColorDrawable) textView.getBackground()).getColor() == selectColor)
-            {
-                if (Build.VERSION.SDK_INT < 23) {
-                    textView.setTextAppearance(getApplicationContext(), R.style.MyButton);
-                } else {
-                    textView.setTextAppearance(R.style.MyButton);
-                }
-                // selectCards.remove(card);
+        passiveCards = FileWorker.readCards(getFilesDir(), false);
+        ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, passiveCards);
+        ((ListView)findViewById(R.id.list_cards_for_select)).setAdapter(adapter);
+        ((ListView) findViewById(R.id.list_cards_for_select)).setOnItemClickListener((parent, view, position, id) -> {
+            if(view.isActivated()) {
+                view.setBackgroundColor(getResources().getColor(R.color.bright_green));
+                view.setActivated(false);
+                activeCards.remove(adapter.getItem(position));
             } else {
-                textView.setBackgroundColor(selectColor);
-                //  selectCards.add(card);
+                view.setBackgroundColor(getResources().getColor(R.color.gray));
+                view.setActivated(true);
+                activeCards.add(adapter.getItem(position));
             }
         });
-        return textView;
     }
 
-   /* private void saveCard(TextView textView) {
-        ((LinearLayout) findViewById(R.id.list_cards)).removeView(textView);
-        cards.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
-    }*/
-
-   /* @Override
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), cards);
-    }*/
-
-
+        FileWorker.writeCard(getFilesDir(), activeCards, true);
+    }
 }

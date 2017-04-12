@@ -19,8 +19,8 @@ import java.util.List;
 
 public class CardReader extends AppCompatActivity {
 
-    private static final int ROTATION_SPEED = 400;
-    private static final int TRANSLATION_SPEED = 400;
+    private static final int ROTATION_SPEED = 1000;
+    private static final int TRANSLATION_SPEED = 600;
     private List<Card> cards;
     private TextView textView;
     private boolean isTranslate = true;
@@ -31,7 +31,7 @@ public class CardReader extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir());
+        cards = FileWorker.readCards(getFilesDir(), true);
         Collections.shuffle(cards);
         textView = ((TextView)findViewById(R.id.card));
         printWord();

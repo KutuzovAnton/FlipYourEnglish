@@ -7,20 +7,21 @@
     <color name="green_temp">#23A96E</color>
     <color name="green_dark">#159204</color>
     <color name="bright_green">#009688</color>
+    <color name="bright_greenOpacity">#b3009688</color>
     <color name="button_green">#e524a155</color>
     <color name="blue">#c11c73ff</color>
     <color name="textColor">#77ffe6</color>
     <color name="black">#c1000000</color>
-    <color name="gray">#303030</color>
+    <color name="dark_gray">#303030</color>
 
     <color name="borderLow">#1be6c0</color>
     <color name="borderHigh">#aefff0</color>
     <color name="gradientStart">#77ffe6</color>
     <color name="gradientEnd">#9affec</color>
-    <color name="text">#999</color>
+    <color name="gray">#999</color>
     <color name="shadow">#d4fff7</color>
     <color name="lineColor">#000000</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="primary_material_light">#009587</color>
     <color name="accent_material_light">#009688</color>
 </resources>

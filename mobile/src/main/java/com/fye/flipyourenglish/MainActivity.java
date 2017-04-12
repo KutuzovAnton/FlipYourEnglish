@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.fye.flipyourenglish.menu.MenuListener;
 

@@ -24,4 +24,9 @@ public class Card {
     public void setWord2(String word2) {
         this.word2 = word2;
     }
+
+    @Override
+    public String toString() {
+        return word1 + " - " + word2;
+    }
 }

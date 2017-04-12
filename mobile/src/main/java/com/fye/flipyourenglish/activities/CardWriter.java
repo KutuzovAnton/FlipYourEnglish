@@ -29,7 +29,7 @@ public class CardWriter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writer_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir());
+        cards = FileWorker.readCards(getFilesDir(), false);
         ((Button)findViewById(R.id.add_card)).setOnClickListener(v -> {
             Card card = new Card();
             card.setWord1(((EditText)findViewById(R.id.word1)).getText().toString());
@@ -42,13 +42,13 @@ public class CardWriter extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), cards);
+        FileWorker.writeCard(getFilesDir(), cards, false);
     }
 
 
     private void showToast() {
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Card has been added", Toast.LENGTH_LONG);
+                "Card has been added", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         LinearLayout toastContainer = (LinearLayout) toast.getView();
         ImageView catImageView = new ImageView(getApplicationContext());

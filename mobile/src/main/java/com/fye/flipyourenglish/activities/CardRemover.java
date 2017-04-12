@@ -26,11 +26,11 @@ public class CardRemover extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remover_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir());
+        cards = FileWorker.readCards(getFilesDir(), false);
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        cards.forEach(card -> ((LinearLayout)findViewById(R.id.list_cards)).addView(createCard(card, point), lParams));
+        cards.forEach(card -> ((LinearLayout)findViewById(R.id.list_cards_for_remove)).addView(createCard(card, point), lParams));
     }
 
     private TextView createCard(Card card, Point point) {
@@ -52,14 +52,14 @@ public class CardRemover extends AppCompatActivity {
     }
 
     private void removeCard(TextView textView) {
-        ((LinearLayout) findViewById(R.id.list_cards)).removeView(textView);
+        ((LinearLayout) findViewById(R.id.list_cards_for_remove)).removeView(textView);
         cards.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), cards);
+        FileWorker.writeCard(getFilesDir(), cards, false);
     }
 
 

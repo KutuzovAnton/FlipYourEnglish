@@ -15,6 +15,7 @@ public class TextViewBuilder {
     private Activity activity;
     private String text;
     private int size;
+    private int index;
 
     public TextViewBuilder(Activity activity) {
         this.activity = activity;
@@ -24,6 +25,7 @@ public class TextViewBuilder {
 
         TextView textView = new TextView(activity);
         textView.setTextSize(size);
+        textView.setId(index++);
         textView.setTextColor(activity.getResources().getColor(R.color.black));
         textView.setBackgroundResource(R.drawable.card_style);
         textView.setText(text);
