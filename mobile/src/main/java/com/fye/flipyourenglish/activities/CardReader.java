@@ -32,32 +32,38 @@ public class CardReader extends AppCompatActivity {
         setContentView(R.layout.activity_reader_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cards = FileWorker.readCards(getFilesDir(), true);
-        Collections.shuffle(cards);
-        textView = ((TextView)findViewById(R.id.card));
-        printWord();
-        setOnTouchListener();
+        if(!cards.isEmpty()) {
+            Collections.shuffle(cards);
+            textView = ((TextView)findViewById(R.id.card));
+            printWord();
+            setOnTouchListener();
+        } else {
+            Utils.showToast(getApplicationContext(), "No cards");
+        }
     }
 
     private void setOnTouchListener() {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
-        textView.setOnTouchListener(new OnSwipeTouchListener(this) {
+        ((TextView)textView).setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 getNext();
                 Utils.translation(point.x, textView, () -> printWord());
+                isTranslate = true;
             }
 
             public void onSwipeLeft() {
                 getPrev();
                 Utils.translation(-point.x, textView, () -> printWord());
+                isTranslate = true;
             }
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                textView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
-                    textView.setRotationX(isTranslate ? 270 : -270);
+                ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
+                    ((TextView)textView).setRotationX(isTranslate ? 270 : -270);
                     printWord();
-                    textView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
+                    ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
                 });
             }
         });
@@ -78,7 +84,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     private void printWord() {
-        textView.setText(isTranslate ? cards.get(currentCardIndex).getWord1() : cards.get(currentCardIndex).getWord2());
+        ((TextView)textView).setText(isTranslate ? cards.get(currentCardIndex).getWord1() : cards.get(currentCardIndex).getWord2());
     }
 
 }

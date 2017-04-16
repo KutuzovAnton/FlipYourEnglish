@@ -19,18 +19,22 @@ import java.util.List;
 
 public class CardRemover extends AppCompatActivity {
 
-    private List<Card> cards;
+    private List<Card> active;
+    private List<Card> passive;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remover_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir(), false);
+        passive = FileWorker.readCards(getFilesDir(), false);
+        active = FileWorker.readCards(getFilesDir(), true);
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        cards.forEach(card -> ((LinearLayout)findViewById(R.id.list_cards_for_remove)).addView(createCard(card, point), lParams));
+        for (Card card: passive) {
+            ((LinearLayout)findViewById(R.id.list_cards_for_remove)).addView(createCard(card, point), lParams);
+        }
     }
 
     private TextView createCard(Card card, Point point) {
@@ -39,7 +43,7 @@ public class CardRemover extends AppCompatActivity {
                 .setText(card.getWord1() + " - " + card.getWord2())
                 .setSize(30)
                 .build();
-        textView.setOnTouchListener(new OnSwipeTouchListener(this) {
+        ((TextView)textView).setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 Utils.translation(point.x, textView, () -> removeCard(textView));
             }
@@ -53,13 +57,15 @@ public class CardRemover extends AppCompatActivity {
 
     private void removeCard(TextView textView) {
         ((LinearLayout) findViewById(R.id.list_cards_for_remove)).removeView(textView);
-        cards.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
+        passive.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
+        active.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), cards, false);
+        FileWorker.writeCard(getFilesDir(), passive, false);
+        FileWorker.writeCard(getFilesDir(), active, true);
     }
 
 
