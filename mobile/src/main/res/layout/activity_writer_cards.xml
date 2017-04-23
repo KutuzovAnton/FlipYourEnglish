@@ -7,6 +7,8 @@
     android:layout_height="fill_parent"
     android:layout_centerHorizontal="true"
     android:baselineAligned="false"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -21,54 +23,72 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <EditText
-        android:id="@+id/word1"
-        android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/wordLayout1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/first_word"
-        android:textAlignment="center"
-        android:textColor="@color/textColor"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/word2"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="8dp"
+        style="@style/TextInputEditText"
+        app:layout_constraintBottom_toTopOf="@+id/wordLayout2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed">
 
-    <EditText
-        android:id="@+id/word2"
-        android:layout_width="match_parent"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/word1"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/first_word"
+            android:inputType="textPersonName"
+            android:selectAllOnFocus="true"
+            android:textAlignment="center"
+            android:textSize="30sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/wordLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/word1"
+        android:layout_below="@+id/wordLayout1"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/second_word"
-        android:textAlignment="center"
-        android:textColor="@color/textColor"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:layout_marginStart="8dp"
+        style="@style/TextInputEditText"
         app:layout_constraintBottom_toTopOf="@+id/add_card"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/word1"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/wordLayout1"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/word2"
+            style="@style/TextInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/second_word"
+            android:inputType="textPersonName"
+            android:selectAllOnFocus="true"
+            android:textAlignment="center"
+            android:textSize="30sp" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/add_card"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/word1"
+        android:layout_below="@+id/wordLayout1"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button_style"
         android:text="@string/add_card"
         android:textAlignment="center"
@@ -77,7 +97,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/word2"
+        app:layout_constraintTop_toBottomOf="@+id/wordLayout2"
         app:layout_constraintVertical_chainStyle="packed" />
 </android.support.constraint.ConstraintLayout>
 

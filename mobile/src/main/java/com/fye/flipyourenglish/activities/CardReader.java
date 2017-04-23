@@ -38,7 +38,7 @@ public class CardReader extends AppCompatActivity {
             printWord();
             setOnTouchListener();
         } else {
-            Utils.showToast(getApplicationContext(), "No cards");
+            Utils.showSnackBar(this, "No cards");
         }
     }
 
