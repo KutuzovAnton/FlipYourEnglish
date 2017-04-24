@@ -1,14 +1,10 @@
 package com.fye.flipyourenglish.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
@@ -32,15 +28,16 @@ public class CardWriter extends AppCompatActivity {
         setContentView(R.layout.activity_writer_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cards = FileWorker.readCards(getFilesDir(), false);
-        ((Button)findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Card card = new Card();
-            card.setWord1(((EditText)findViewById(R.id.word1)).getText().toString());
-            card.setWord2(((EditText)findViewById(R.id.word2)).getText().toString());
-            cards.add(card);
-            Utils.showToast(getApplicationContext(),  "Card has been added");
-        }});
+                Card card = new Card();
+                card.setWord1(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
+                card.setWord2(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
+                cards.add(card);
+                Utils.showSnackBar(v.getContext(), "Card has been added");
+            }
+        });
     }
 
     @Override
