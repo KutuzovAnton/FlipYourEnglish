@@ -25,13 +25,12 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/wordLayout1"
+        style="@style/TextInputEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        style="@style/TextInputEditText"
         app:layout_constraintBottom_toTopOf="@+id/wordLayout2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -45,7 +44,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/first_word"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
             android:textSize="30sp" />
@@ -53,14 +52,13 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/wordLayout2"
+        style="@style/TextInputEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordLayout1"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        style="@style/TextInputEditText"
         app:layout_constraintBottom_toTopOf="@+id/add_card"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -74,7 +72,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/second_word"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
             android:textSize="30sp" />
@@ -82,6 +80,7 @@
 
     <Button
         android:id="@+id/add_card"
+        style="@style/MyButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wordLayout1"
@@ -89,15 +88,45 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/button_style"
         android:text="@string/add_card"
         android:textAlignment="center"
-        android:textColor="@color/textColor"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wordLayout2"
         app:layout_constraintVertical_chainStyle="packed" />
-</android.support.constraint.ConstraintLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/deleteWord1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:onClick="onClickDeleteWord"
+        app:fabSize="mini"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/wordLayout1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/wordLayout1"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/deleteWord2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:onClick="onClickDeleteWord"
+        app:fabSize="mini"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/wordLayout2"
+        app:layout_constraintRight_toRightOf="@+id/circleView"
+        app:layout_constraintTop_toTopOf="@+id/wordLayout2"
+        app:srcCompat="@android:drawable/ic_delete" />
+</android.support.constraint.ConstraintLayout>
