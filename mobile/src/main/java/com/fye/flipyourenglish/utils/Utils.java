@@ -2,6 +2,7 @@ package com.fye.flipyourenglish.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
@@ -64,5 +65,11 @@ public class Utils {
         }).setActionTextColor(context.getResources().getColor(R.color.editTextColor));
         snack.show();
     }
-
+    public static void resolveVisibilityForFAB(FloatingActionButton fab, int visible) {
+        if (visible == View.INVISIBLE) {
+            fab.hide();
+        } else {
+            fab.show();
+        }
+    }
 }

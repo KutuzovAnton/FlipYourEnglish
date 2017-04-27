@@ -33,8 +33,8 @@ public class CardWriter extends AppCompatActivity {
         setContentView(R.layout.activity_writer_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cards = FileWorker.readCards(getFilesDir(), false);
-        resolveVisibilityofFAB(R.id.deleteWord1, View.INVISIBLE);
-        resolveVisibilityofFAB(R.id.deleteWord2, View.INVISIBLE);
+        Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
+        Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
         ((Button) findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,29 +89,20 @@ public class CardWriter extends AppCompatActivity {
         switch (textView.getId()) {
             case (R.id.word1):
                 if (!textView.getText().toString().isEmpty()) {
-                    resolveVisibilityofFAB(R.id.deleteWord1, View.VISIBLE);
+                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.VISIBLE);
                 } else {
                     Utils.showSnackBar(view.getContext(), "Word is empty");
-                    resolveVisibilityofFAB(R.id.deleteWord1, View.INVISIBLE);
+                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
                 }
                 break;
             case (R.id.word2):
                 if (!textView.getText().toString().isEmpty()) {
-                    resolveVisibilityofFAB(R.id.deleteWord2, View.VISIBLE);
+                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.VISIBLE);
                 } else {
                     Utils.showSnackBar(view.getContext(), "Word is empty");
-                    resolveVisibilityofFAB(R.id.deleteWord2, View.INVISIBLE);
+                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
                 }
                 break;
-        }
-    }
-
-    private void resolveVisibilityofFAB(int viewById, int visible) {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(viewById);
-        if (visible == View.INVISIBLE) {
-            fab.hide();
-        } else {
-            fab.show();
         }
     }
 }
