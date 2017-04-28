@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#e524a155</color>
-    <color name="colorPrimaryDark">#e524a155</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#008175</color>
     <color name="colorAccent">#FF4081</color>
     <!-- Green -->
     <color name="green_temp">#23A96E</color>
@@ -11,6 +11,7 @@
     <color name="button_green">#e524a155</color>
     <color name="blue">#c11c73ff</color>
     <color name="textColor">#77ffe6</color>
+    <color name="editTextColor">#edfc6a85</color>
     <color name="black">#c1000000</color>
     <color name="dark_gray">#303030</color>
 
