@@ -23,6 +23,7 @@ import java.util.function.Predicate;
 
 public class Utils {
 
+    public static final String DATABASE_NAME = "core.db";
     public final static Gson gson = new GsonBuilder().create();
     private static final long TRANSLATION_SPEED = 1000;
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
+import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.FileWorker;
 import com.fye.flipyourenglish.utils.Utils;
 
@@ -25,13 +26,15 @@ public class CardReader extends AppCompatActivity {
     private TextView textView;
     private boolean isTranslate = true;
     private int currentCardIndex = 0;
+    private CardRepository cardRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cards = FileWorker.readCards(getFilesDir(), true);
+        cardRepository = new CardRepository(this);
+        cards = cardRepository.findActiveCards();
         if(!cards.isEmpty()) {
             Collections.shuffle(cards);
             textView = ((TextView)findViewById(R.id.card));
@@ -60,10 +63,13 @@ public class CardReader extends AppCompatActivity {
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
-                    ((TextView)textView).setRotationX(isTranslate ? 270 : -270);
-                    printWord();
-                    ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
+                ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TextView) textView).setRotationX(isTranslate ? 270 : -270);
+                        printWord();
+                        ((TextView) textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
+                    }
                 });
             }
         });
@@ -84,7 +90,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     private void printWord() {
-        ((TextView)textView).setText(isTranslate ? cards.get(currentCardIndex).getWord1() : cards.get(currentCardIndex).getWord2());
+        ((TextView)textView).setText(isTranslate ? cards.get(currentCardIndex).getWordA().getWord() : cards.get(currentCardIndex).getWordB().getWord());
     }
 
 }

@@ -13,7 +13,7 @@
 
 
         <EditText
-            android:id="@+id/word1"
+            android:id="@+id/wordA"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
@@ -31,14 +31,14 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/word2"
+            android:id="@+id/wordB"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/word1"
+            android:layout_below="@+id/wordA"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="@string/second_word"
@@ -52,7 +52,7 @@
             android:id="@+id/add_card"
             android:layout_width="250dp"
             android:layout_height="60dp"
-            android:layout_below="@+id/word1"
+            android:layout_below="@+id/wordA"
             android:layout_marginTop="69dp"
             android:background="@drawable/button_style"
             android:text="@string/add_card"

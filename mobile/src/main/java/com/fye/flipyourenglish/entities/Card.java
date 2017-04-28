@@ -6,27 +6,45 @@ package com.fye.flipyourenglish.entities;
 
 public class Card {
 
-    private String word1;
-    private String word2;
+    private Long id;
+    private Word wordA;
+    private Word wordB;
+    private Integer active;
 
-    public String getWord1() {
-        return word1;
+    public Long getId() {
+        return id;
     }
 
-    public void setWord1(String word1) {
-        this.word1 = word1;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getWord2() {
-        return word2;
+    public Word getWordA() {
+        return wordA;
     }
 
-    public void setWord2(String word2) {
-        this.word2 = word2;
+    public void setWordA(Word wordA) {
+        this.wordA = wordA;
+    }
+
+    public Word getWordB() {
+        return wordB;
+    }
+
+    public void setWordB(Word wordB) {
+        this.wordB = wordB;
     }
 
     @Override
     public String toString() {
-        return word1 + " - " + word2;
+        return wordA + " - " + wordB;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
 }

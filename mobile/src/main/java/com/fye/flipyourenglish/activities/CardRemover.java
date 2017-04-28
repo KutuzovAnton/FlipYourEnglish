@@ -9,9 +9,11 @@ import android.widget.TextView;
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.builders.TextViewBuilder;
 import com.fye.flipyourenglish.entities.Card;
+import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.FileWorker;
 import com.fye.flipyourenglish.utils.Utils;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
@@ -19,28 +21,28 @@ import java.util.List;
 
 public class CardRemover extends AppCompatActivity {
 
-    private List<Card> active;
-    private List<Card> passive;
+    private List<Card> cards;
+    private CardRepository cardRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_remover_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        passive = FileWorker.readCards(getFilesDir(), false);
-        active = FileWorker.readCards(getFilesDir(), true);
+        cardRepository = new CardRepository(this);
+        cards = cardRepository.findAll();
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-        for (Card card: passive) {
-            ((LinearLayout)findViewById(R.id.list_cards_for_remove)).addView(createCard(card, point), lParams);
+        for (Card card: cards) {
+            ((LinearLayout)findViewById(R.id.list_cards_for_remove)).addView(createTextViewCard(card, point), lParams);
         }
     }
 
-    private TextView createCard(Card card, Point point) {
+    private TextView createTextViewCard(Card card, Point point) {
         TextViewBuilder textViewBuilder = new TextViewBuilder(this);
         TextView textView = textViewBuilder
-                .setText(card.getWord1() + " - " + card.getWord2())
+                .setText(card.getWordA() + " - " + card.getWordB())
                 .setSize(30)
                 .build();
         ((TextView)textView).setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -57,15 +59,14 @@ public class CardRemover extends AppCompatActivity {
 
     private void removeCard(TextView textView) {
         ((LinearLayout) findViewById(R.id.list_cards_for_remove)).removeView(textView);
-        passive.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
-        active.removeIf(card -> textView.getText().equals(card.getWord1() + " - " + card.getWord2()));
+        Optional<Card> findCard = cards.stream().filter(card -> textView.getText().equals(card.getWordA() + " - " + card.getWordB())).findFirst();
+        cardRepository.removeById(findCard.get().getId());
+        cards.remove(findCard.get());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), passive, false);
-        FileWorker.writeCard(getFilesDir(), active, true);
     }
 
 
