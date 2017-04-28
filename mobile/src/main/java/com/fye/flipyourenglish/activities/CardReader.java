@@ -17,6 +17,8 @@ import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.FileWorker;
 import com.fye.flipyourenglish.utils.Utils;
 
+import org.springframework.util.StringUtils;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class CardReader extends AppCompatActivity {
     private EditText cardEditView;
     private boolean isTranslate = true;
     private int currentCardIndex = 0;
+    private CardRepository cardRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +74,6 @@ public class CardReader extends AppCompatActivity {
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                ((TextView) textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
-                    ((TextView) textView).setRotationX(isTranslate ? 270 : -270);
-                    printWord();
-                    ((TextView) textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
                 ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(new Runnable() {
                     @Override
                     public void run() {
@@ -102,7 +101,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     private void printWord() {
-        ((TextView) textView).setText(isTranslate ? cards.get(currentCardIndex).getWord1() : cards.get(currentCardIndex).getWord2());
+        ((TextView) textView).setText(isTranslate ? cards.get(currentCardIndex).getWordA().getWord() : cards.get(currentCardIndex).getWordB().getWord());
     }
 
     private void setTextWatcher(EditText word) {
@@ -131,21 +130,23 @@ public class CardReader extends AppCompatActivity {
         ViewSwitcher viewSwitcher = switchAndGetTextView(textView);
         ((TextView) viewSwitcher.findViewById(R.id.card)).setText(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
         if (isTranslate) {
-            cards.get(currentCardIndex).setWord1(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
+            cards.get(currentCardIndex).getWordA().setWord(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
         } else {
-            cards.get(currentCardIndex).setWord2(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
+            cards.get(currentCardIndex).getWordB().setWord(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
         }
+        cardRepository.update(cards.get(currentCardIndex));
         ((FloatingActionButton) findViewById(R.id.confirmCardFAB)).hide();
     }
 
     private ViewSwitcher switchAndGetTextView(View view) {
+        //TODO Why don't use view?
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.cardTextViewSwitcher);
         switcher.showNext();
         return switcher;
     }
 
     private void resolveVisibilityForFAB(EditText view) {
-        if (!view.getText().toString().isEmpty()) {
+        if (!StringUtils.isEmpty(view.getText())) {
             Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.confirmCardFAB), View.VISIBLE);
         } else {
             Utils.showSnackBar(view.getContext(), "Word is empty");

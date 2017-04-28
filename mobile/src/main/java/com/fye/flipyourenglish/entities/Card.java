@@ -11,6 +11,11 @@ public class Card {
     private Word wordB;
     private Integer active;
 
+    public Card() {
+        wordA = new Word();
+        wordB = new Word();
+    }
+
     public Long getId() {
         return id;
     }

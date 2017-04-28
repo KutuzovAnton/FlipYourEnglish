@@ -8,18 +8,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.fye.flipyourenglish.R;
-import com.fye.flipyourenglish.db.WordsTablesCreater;
 import com.fye.flipyourenglish.entities.Card;
-import com.fye.flipyourenglish.entities.Word;
 import com.fye.flipyourenglish.repositories.CardRepository;
-import com.fye.flipyourenglish.repositories.WordRepository;
-import com.fye.flipyourenglish.utils.FileWorker;
 import com.fye.flipyourenglish.utils.Utils;
-
-import java.util.List;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
@@ -38,14 +31,13 @@ public class CardWriter extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
         Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
-        ((Button) findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
         cardRepository = new CardRepository(this);
         ((Button)findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Card card = new Card();
-                card.setWord1(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
-                card.setWord2(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
+                card.getWordA().setWord(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
+                card.getWordB().setWord(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
                 cardRepository.save(card);
                 Utils.showSnackBar(v.getContext(), "Card has been added", R.drawable.ic_done);
             }
@@ -70,12 +62,6 @@ public class CardWriter extends AppCompatActivity {
                 onClickEditText(word);
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        FileWorker.writeCard(getFilesDir(), cards, false);
     }
 
     public void onClickDeleteWord(View view) {
