@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 23
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.fye.flipyourenglish"
         minSdkVersion 21
@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.android.support:wearable:2.0.0'
     compile 'com.google.android.gms:play-services-wearable:10.2.0'
     provided 'com.google.android.wearable:wearable:1.0.0'

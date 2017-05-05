@@ -9,7 +9,7 @@ import static com.fye.flipyourenglish.utils.Utils.DATABASE_NAME;
  * Created by Anton_Kutuzau on 4/18/2017.
  */
 
-public class WordsTablesCreater {
+public class WordsTablesCreator {
 
     public static final String TABLE_ENGLISH_WORDS = "english_words";
     public static final String TABLE_RUSSIAN_WORDS = "russian_words";

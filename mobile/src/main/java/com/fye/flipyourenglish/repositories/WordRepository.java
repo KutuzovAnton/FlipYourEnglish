@@ -6,14 +6,12 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fye.flipyourenglish.db.BaseCreater;
-import com.fye.flipyourenglish.db.WordsTablesCreater;
+import com.fye.flipyourenglish.db.DataBaseCreator;
 import com.fye.flipyourenglish.entities.Word;
-import com.orm.SugarRecord;
 
 
-import static com.fye.flipyourenglish.db.WordsTablesCreater.COLUMN_ID;
-import static com.fye.flipyourenglish.db.WordsTablesCreater.COLUMN_WORD;
+import static com.fye.flipyourenglish.db.WordsTablesCreator.COLUMN_ID;
+import static com.fye.flipyourenglish.db.WordsTablesCreator.COLUMN_WORD;
 
 /**
  * Created by Anton_Kutuzau on 4/18/2017.
@@ -23,20 +21,20 @@ public class WordRepository {
 
     private SQLiteDatabase readFromDB;
     private SQLiteDatabase writeIntoDB;
-    private BaseCreater baseCreater;
+    private DataBaseCreator dataBaseCreator;
 
     public WordRepository(Context context) {
-        baseCreater = new BaseCreater(context);
+        dataBaseCreator = new DataBaseCreator(context);
         open();
     }
 
     public void open() throws SQLException {
-        writeIntoDB = baseCreater.getWritableDatabase();
-        readFromDB = baseCreater.getReadableDatabase();
+        writeIntoDB = dataBaseCreator.getWritableDatabase();
+        readFromDB = dataBaseCreator.getReadableDatabase();
     }
 
     public void close() {
-        baseCreater.close();
+        dataBaseCreator.close();
     }
 
     public Word save(Word word, String tableName) {

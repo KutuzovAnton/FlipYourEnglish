@@ -1,5 +1,8 @@
 package com.fye.flipyourenglish.entities;
 
+import android.text.Html;
+import android.text.Spanned;
+
 /**
  * Created by Anton_Kutuzau on 3/20/2017.
  */
@@ -40,9 +43,13 @@ public class Card {
         this.wordB = wordB;
     }
 
+    public Spanned getHint() {
+        return Html.fromHtml(wordA + " <i>" + "(" + wordB + ")" + "</i>");
+    }
+
     @Override
     public String toString() {
-        return wordA + " - " + wordB;
+        return wordA + " (" + wordB + ")";
     }
 
     public Integer getActive() {
