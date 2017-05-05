@@ -10,27 +10,27 @@ import static com.fye.flipyourenglish.utils.Utils.DATABASE_NAME;
  * Created by Anton_Kutuzau on 4/28/2017.
  */
 
-public class BaseCreater extends SQLiteOpenHelper {
+public class DataBaseCreator extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private CardTableCreater cardTableCreater;
-    private WordsTablesCreater wordsTablesCreater;
+    private CardTableCreator cardTableCreator;
+    private WordsTablesCreator wordsTablesCreator;
 
-    public BaseCreater(Context context) {
+    public DataBaseCreator(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        cardTableCreater = new CardTableCreater();
-        wordsTablesCreater= new WordsTablesCreater();
+        cardTableCreator = new CardTableCreator();
+        wordsTablesCreator = new WordsTablesCreator();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        cardTableCreater.onCreate(db);
-        wordsTablesCreater.onCreate(db);
+        cardTableCreator.onCreate(db);
+        wordsTablesCreator.onCreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        cardTableCreater.onUpgrade(db, oldVersion, newVersion);
-        wordsTablesCreater.onUpgrade(db, oldVersion, newVersion);
+        cardTableCreator.onUpgrade(db, oldVersion, newVersion);
+        wordsTablesCreator.onUpgrade(db, oldVersion, newVersion);
     }
 }

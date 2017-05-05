@@ -9,6 +9,7 @@
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
+    android:windowSoftInputMode="adjustResize"
     android:weightSum="1">
 
     <com.fye.flipyourenglish.views.CircleView
@@ -46,7 +47,8 @@
             android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -74,7 +76,8 @@
             android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:digits="абвгдеёжзийклмнопрстуфхцчшщъыьэюя АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

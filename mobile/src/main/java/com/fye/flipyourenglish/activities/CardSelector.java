@@ -10,7 +10,6 @@ import android.widget.ListView;
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.repositories.CardRepository;
-import com.fye.flipyourenglish.utils.FileWorker;
 
 import java.util.List;
 
@@ -24,20 +23,29 @@ public class CardSelector extends AppCompatActivity {
     private List<Card> cards;
     private CardRepository cardRepository;
 
+    private void init() {
+        cardRepository = new CardRepository(this);
+        cards = cardRepository.findAll();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_selecter_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cardRepository = new CardRepository(this);
-        cards = cardRepository.findAll();
+        init();
+        createArrayAdapter();
+    }
+
+    private void createArrayAdapter() {
+        ListView listView = (ListView) findViewById(R.id.list_cards_for_select);
         ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, cards);
-        ((ListView)findViewById(R.id.list_cards_for_select)).setAdapter(adapter);
-        ((ListView) findViewById(R.id.list_cards_for_select)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (adapter.getItem(position) == null) {
-                   return;
+                    return;
                 }
                 if (view.isActivated()) {
                     view.setBackgroundColor(getResources().getColor(R.color.bright_green));
@@ -56,5 +64,6 @@ public class CardSelector extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         cardRepository.updateAll(cards);
+        cardRepository.close();
     }
 }

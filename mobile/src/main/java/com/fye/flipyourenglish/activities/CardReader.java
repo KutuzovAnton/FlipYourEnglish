@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,14 +14,16 @@ import android.widget.ViewSwitcher;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
+import com.fye.flipyourenglish.entities.Word;
 import com.fye.flipyourenglish.repositories.CardRepository;
-import com.fye.flipyourenglish.utils.FileWorker;
 import com.fye.flipyourenglish.utils.Utils;
 
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
 import java.util.List;
+
+import static android.R.drawable.ic_dialog_alert;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
@@ -29,57 +32,62 @@ import java.util.List;
 public class CardReader extends AppCompatActivity {
 
     private static final int ROTATION_SPEED = 1000;
-    private static final int TRANSLATION_SPEED = 600;
     private List<Card> cards;
-    private TextView textView;
+    private TextView  textView;
     private EditText cardEditView;
+    private ViewSwitcher cardSwitchView;
     private boolean isTranslate = true;
     private int currentCardIndex = 0;
     private CardRepository cardRepository;
+
+    private void init() {
+        textView = ((TextView) findViewById(R.id.card));
+        cardEditView = (EditText) findViewById(R.id.card_edit_view);
+        cardSwitchView = (ViewSwitcher) findViewById(R.id.cardTextViewSwitcher);
+        cardRepository = new CardRepository(this);
+        cards = cardRepository.findActiveCards();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader_cards);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        cardRepository = new CardRepository(this);
-        cards = cardRepository.findActiveCards();
+        init();
         if(!cards.isEmpty()) {
             Collections.shuffle(cards);
-            textView = ((TextView) findViewById(R.id.card));
             printWord();
             setOnTouchListener();
-            cardEditView = (EditText) findViewById(R.id.card_edit_view);
             setTextWatcher(cardEditView);
         } else {
-            Utils.showSnackBar(this, "No cards", R.drawable.ic_done);
+            Utils.showSnackBar(this, "No cards", ic_dialog_alert, Gravity.BOTTOM);
         }
     }
 
     private void setOnTouchListener() {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
-        ((TextView) textView).setOnTouchListener(new OnSwipeTouchListener(this) {
+        cardSwitchView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 getNext();
-                Utils.translation(point.x, textView, () -> printWord());
+                Utils.translation(point.x, cardSwitchView, () -> printWord());
                 isTranslate = true;
             }
 
             public void onSwipeLeft() {
                 getPrev();
-                Utils.translation(-point.x, textView, () -> printWord());
+                Utils.translation(-point.x, cardSwitchView, () -> printWord());
                 isTranslate = true;
             }
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                ((TextView)textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(new Runnable() {
+                cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(new Runnable() {
                     @Override
                     public void run() {
-                        ((TextView) textView).setRotationX(isTranslate ? 270 : -270);
+                        cardSwitchView.setRotationX(isTranslate ? 270 : -270);
                         printWord();
-                        ((TextView) textView).animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
+                        cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
                     }
                 });
             }
@@ -101,7 +109,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     private void printWord() {
-        ((TextView) textView).setText(isTranslate ? cards.get(currentCardIndex).getWordA().getWord() : cards.get(currentCardIndex).getWordB().getWord());
+        textView.setText(getCurrentWord().getWord());
     }
 
     private void setTextWatcher(EditText word) {
@@ -128,18 +136,14 @@ public class CardReader extends AppCompatActivity {
 
     public void onClickConfirmText(View view) {
         ViewSwitcher viewSwitcher = switchAndGetTextView(textView);
-        ((TextView) viewSwitcher.findViewById(R.id.card)).setText(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
-        if (isTranslate) {
-            cards.get(currentCardIndex).getWordA().setWord(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
-        } else {
-            cards.get(currentCardIndex).getWordB().setWord(((EditText) viewSwitcher.findViewById(R.id.card_edit_view)).getText().toString());
-        }
+        EditText cardEditView = (EditText) viewSwitcher.findViewById(R.id.card_edit_view);
+        ((TextView) viewSwitcher.findViewById(R.id.card)).setText(cardEditView.getText().toString());
+        getCurrentWord().setWord(cardEditView.getText().toString());
         cardRepository.update(cards.get(currentCardIndex));
         ((FloatingActionButton) findViewById(R.id.confirmCardFAB)).hide();
     }
 
     private ViewSwitcher switchAndGetTextView(View view) {
-        //TODO Why don't use view?
         ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.cardTextViewSwitcher);
         switcher.showNext();
         return switcher;
@@ -152,5 +156,15 @@ public class CardReader extends AppCompatActivity {
             Utils.showSnackBar(view.getContext(), "Word is empty");
             Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.confirmCardFAB), View.INVISIBLE);
         }
+    }
+
+    private Word getCurrentWord() {
+        return isTranslate ? cards.get(currentCardIndex).getWordA() : cards.get(currentCardIndex).getWordB();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cardRepository.close();
     }
 }
