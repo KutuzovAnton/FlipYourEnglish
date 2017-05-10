@@ -9,9 +9,9 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.fye.flipyourenglish.R;
 
@@ -22,30 +22,18 @@ import com.fye.flipyourenglish.R;
 public class Utils {
 
     public static final String DATABASE_NAME = "core.db";
-    private static final long TRANSLATION_SPEED = 1000;
 
-    public static void translation(int size, TextView textView, Runnable function) {
-        float x = textView.getX();
-        textView.animate().translationXBy(size).setDuration(TRANSLATION_SPEED).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                textView.setX(-size);
-                function.run();
-                textView.animate().translationXBy(size + x).setDuration(TRANSLATION_SPEED);
-            }
+    public static void translation(int size, View view, Runnable function, Long translationCardSpeed) {
+        int x = (int) view.getX();
+        translationAnimation(size, view, translationCardSpeed).withEndAction(() -> {
+            view.setX(-size);
+            function.run();
+            translationAnimation(size + x, view, translationCardSpeed);
         });
     }
 
-    public static void translation(int size, ViewSwitcher viewSwitcher, Runnable function) {
-        float x = viewSwitcher.getX();
-        viewSwitcher.animate().translationXBy(size).setDuration(TRANSLATION_SPEED).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                viewSwitcher.setX(-size);
-                function.run();
-                viewSwitcher.animate().translationXBy(size + x).setDuration(TRANSLATION_SPEED);
-            }
-        });
+    public static ViewPropertyAnimator translationAnimation(int size, View view, long duration) {
+        return view.animate().translationXBy(size).setDuration(duration);
     }
 
     public static void showSnackBar(Context context, String message) {
@@ -55,7 +43,7 @@ public class Utils {
     public static void showSnackBar(Context context, String message, int icon, int gravity) {
         View currentFocus = ((Activity) context).findViewById(android.R.id.content);
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(message);
+        builder.append(message).append("  ");
         if (icon != View.NO_ID) {
             builder.append(" ").setSpan(new ImageSpan(context, icon), builder.length() - 1, builder.length(), 0);
         }
@@ -64,13 +52,14 @@ public class Utils {
         view.setBackgroundColor((context.getResources().getColor(R.color.bright_greenOpacity)));
         TextView textView = (TextView) view.findViewById(R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
-        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = gravity;
         view.setLayoutParams(params);
         snack.setAction("CLOSE", v -> {
         }).setActionTextColor(context.getResources().getColor(R.color.editTextColor));
         snack.show();
     }
+
     public static void resolveVisibilityForFAB(FloatingActionButton fab, int visible) {
         if (visible == View.INVISIBLE) {
             fab.hide();

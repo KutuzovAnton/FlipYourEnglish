@@ -1,7 +1,12 @@
-package com.fye.flipyourenglish.menu;
+package com.fye.flipyourenglish.listeners;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
+import android.support.design.widget.NavigationView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.activities.CardReader;
@@ -9,15 +14,16 @@ import com.fye.flipyourenglish.activities.CardRemover;
 import com.fye.flipyourenglish.activities.CardSelector;
 import com.fye.flipyourenglish.activities.CardWriter;
 
+
 /**
  * Created by Anton_Kutuzau on 3/13/2017.
  */
 
-public class MenuListener implements View.OnClickListener {
+public class MainActivityListener implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private final Activity activity;
 
-    public MenuListener(Activity activity) {
+    public MainActivityListener(Activity activity) {
         this.activity = activity;
     }
 
@@ -38,4 +44,12 @@ public class MenuListener implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        //TODO we can running some activate
+        return true;
+    }
+
 }

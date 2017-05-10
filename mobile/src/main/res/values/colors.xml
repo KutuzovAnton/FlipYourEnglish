@@ -12,7 +12,7 @@
     <color name="blue">#c11c73ff</color>
     <color name="textColor">#77ffe6</color>
     <color name="editTextColor">#edfc6a85</color>
-    <color name="black">#c1000000</color>
+    <color name="black">#000000</color>
     <color name="dark_gray">#303030</color>
 
     <color name="borderLow">#1be6c0</color>
@@ -25,4 +25,5 @@
     <color name="white">#ffffff</color>
     <color name="primary_material_light">#009587</color>
     <color name="accent_material_light">#009688</color>
+    <color name="background_material_dark">#ffffff</color>
 </resources>

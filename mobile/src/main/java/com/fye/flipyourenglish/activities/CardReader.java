@@ -9,12 +9,15 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.entities.Word;
+import com.fye.flipyourenglish.listeners.GoBackListener;
+import com.fye.flipyourenglish.menu.Menu;
 import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.Utils;
 
@@ -33,7 +36,7 @@ public class CardReader extends AppCompatActivity {
 
     private static final int ROTATION_SPEED = 1000;
     private List<Card> cards;
-    private TextView  textView;
+    private TextView textView;
     private EditText cardEditView;
     private ViewSwitcher cardSwitchView;
     private boolean isTranslate = true;
@@ -41,6 +44,8 @@ public class CardReader extends AppCompatActivity {
     private CardRepository cardRepository;
 
     private void init() {
+        ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
+        goBack.setOnClickListener(new GoBackListener(this));
         textView = ((TextView) findViewById(R.id.card));
         cardEditView = (EditText) findViewById(R.id.card_edit_view);
         cardSwitchView = (ViewSwitcher) findViewById(R.id.cardTextViewSwitcher);
@@ -52,9 +57,8 @@ public class CardReader extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reader_cards);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
-        if(!cards.isEmpty()) {
+        if (!cards.isEmpty()) {
             Collections.shuffle(cards);
             printWord();
             setOnTouchListener();
@@ -70,25 +74,22 @@ public class CardReader extends AppCompatActivity {
         cardSwitchView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
                 getNext();
-                Utils.translation(point.x, cardSwitchView, () -> printWord());
+                Utils.translation(point.x, cardSwitchView, () -> printWord(), Menu.getTranslationCardSpeed());
                 isTranslate = true;
             }
 
             public void onSwipeLeft() {
                 getPrev();
-                Utils.translation(-point.x, cardSwitchView, () -> printWord());
+                Utils.translation(-point.x, cardSwitchView, () -> printWord(), Menu.getTranslationCardSpeed());
                 isTranslate = true;
             }
 
             public void onClick() {
                 isTranslate = !isTranslate;
-                cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        cardSwitchView.setRotationX(isTranslate ? 270 : -270);
-                        printWord();
-                        cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
-                    }
+                cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
+                    cardSwitchView.setRotationX(isTranslate ? 270 : -270);
+                    printWord();
+                    cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
                 });
             }
         });

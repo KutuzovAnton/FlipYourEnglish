@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FlipYourEnglish</string>
+    <string name="app_name">Cognize Readily English</string>
     <string name="add_cards">Add cards</string>
     <string name="view_cards">View cards</string>
     <string name="help">Help</string>
@@ -8,4 +8,12 @@
     <string name="second_word">Russian</string>
     <string name="add_card">Add card</string>
     <string name="select_cards">Select cards</string>
+    <string name="bison_com">bison@gmail.com</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="speed_of_animations">Speed of animations</string>
+    <string name="card_slide">Card slide</string>
+    <string name="card_spinner_speed">Card spipper speed</string>
+    <string name="spinner_language">Language</string>
 </resources>
