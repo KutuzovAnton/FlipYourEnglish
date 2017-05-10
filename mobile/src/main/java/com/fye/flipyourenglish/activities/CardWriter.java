@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -11,10 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
+import com.fye.flipyourenglish.listeners.GoBackListener;
 import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.Utils;
 
@@ -32,6 +34,8 @@ public class CardWriter extends AppCompatActivity {
     private TextInputEditText word2;
 
     private void init() {
+        ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
+        goBack.setOnClickListener(new GoBackListener(this));
         cardRepository = new CardRepository(this);
         word1 = (TextInputEditText) findViewById(R.id.word1);
         word2 = (TextInputEditText) findViewById(R.id.word2);
@@ -41,21 +45,19 @@ public class CardWriter extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writer_cards);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         init();
         Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
         Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
         addLanguageValidate((TextInputEditText) findViewById(R.id.word1), true);
         addLanguageValidate((TextInputEditText) findViewById(R.id.word2), false);
-        ((Button)findViewById(R.id.add_card)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Card card = new Card();
-                card.getWordA().setWord(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
-                card.getWordB().setWord(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
-                cardRepository.save(card);
-                Utils.showSnackBar(v.getContext(), "Card has been added", ic_done, Gravity.BOTTOM);
-            }
+        findViewById(R.id.add_card).setOnClickListener(v -> {
+            Card card = new Card();
+            card.getWordA().setWord(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
+            card.getWordB().setWord(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
+            cardRepository.save(card);
+            Utils.showSnackBar(v.getContext(), "Card has been added", ic_done, Gravity.BOTTOM);
         });
 
         setTextWatcher(word1);
@@ -63,22 +65,19 @@ public class CardWriter extends AppCompatActivity {
     }
 
     private void addLanguageValidate(TextInputEditText word, boolean isEnglish) {
-        word.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                InputMethodSubtype ims = getSystemService(InputMethodManager.class).getCurrentInputMethodSubtype();
-                String locale = ims.getLocale();
-                word.onTouchEvent(event);
-                if (isEnglish && !locale.equals("en_US")) {
-                    Utils.showSnackBar(v.getContext(), "Change language to English", ic_dialog_alert, Gravity.TOP);
-                    return false;
-                }
-                if (!isEnglish && !locale.equals("ru")) {
-                    Utils.showSnackBar(v.getContext(), "Change language to Russian", ic_dialog_alert, Gravity.TOP);
-                    return false;
-                }
-                return true;
+        word.setOnTouchListener((v, event) -> {
+            InputMethodSubtype ims = getSystemService(InputMethodManager.class).getCurrentInputMethodSubtype();
+            String locale = ims.getLocale();
+            word.onTouchEvent(event);
+            if (isEnglish && !locale.equals("en_US")) {
+                Utils.showSnackBar(v.getContext(), "Change language to English", ic_dialog_alert, Gravity.TOP);
+                return false;
             }
+            if (!isEnglish && !locale.equals("ru")) {
+                Utils.showSnackBar(v.getContext(), "Change language to Russian", ic_dialog_alert, Gravity.TOP);
+                return false;
+            }
+            return true;
         });
     }
 

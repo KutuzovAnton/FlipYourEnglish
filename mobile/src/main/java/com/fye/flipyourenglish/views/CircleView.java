@@ -32,12 +32,11 @@ public class CircleView extends View {
         super.onDraw(canvas);
         Random random = new Random();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(getResources().getColor(R.color.bright_green));
+        paint.setColor(getResources().getColor(R.color.bright_greenOpacity));
         paint1.setStyle(Paint.Style.STROKE);
         paint1.setColor(Color.WHITE);
         paint.setAntiAlias(true);
         paint1.setAntiAlias(true);
-        // Use Color.parseColor to define HTML colors
         for(int i = 0; i < 45; i++) {
             int radius;
             radius = random.nextInt(100)+10;

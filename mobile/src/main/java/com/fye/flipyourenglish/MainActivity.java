@@ -1,28 +1,37 @@
 package com.fye.flipyourenglish;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.fye.flipyourenglish.menu.MenuListener;
-import com.fye.flipyourenglish.repositories.CardRepository;
+import com.fye.flipyourenglish.listeners.MainActivityListener;
+import com.fye.flipyourenglish.menu.Menu;
+import com.fye.flipyourenglish.utils.Utils;
 import com.fye.flipyourenglish.views.CircleView;
 
 import java.util.ArrayList;
 
+import static com.fye.flipyourenglish.menu.Menu.translationButtonSpeed;
 import static com.fye.flipyourenglish.utils.Utils.DATABASE_NAME;
 
 
 public class MainActivity extends AppCompatActivity {
 
+
     private SensorManager sensorManager;
     private static final int SHAKE_SENSITIVITY = 12;
+    private CircleView circleView;
+    private Menu menu;
 
 
     @Override
@@ -36,12 +45,46 @@ public class MainActivity extends AppCompatActivity {
                 sensorListener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+        ((CircleView)findViewById(R.id.circleView)).animate().alpha(1);
     }
 
+
     public void init() {
+        MainActivityListener mainActivityListener = new MainActivityListener(this);
+        circleView = (CircleView) findViewById(R.id.circleView);
+        initButtons(mainActivityListener);
+        NavigationView navigationView = initNavigationView(mainActivityListener);
+        menu = new Menu(this, navigationView, getSharedPreferences(Menu.APP_PREFERENCES, Context.MODE_PRIVATE));
+    }
+
+    private NavigationView initNavigationView(MainActivityListener mainActivityListener) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        initButtons(mainActivityListener);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(mainActivityListener);
+
+        return navigationView;
+    }
+
+    private void initButtons(MainActivityListener mainActivityListener) {
+        int i = 0;
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getSize(point);
         ArrayList<View> touchables = findViewById(R.id.main).getTouchables();
         for (View view : touchables) {
-            view.setOnClickListener(new MenuListener(this));
+            int startPosition = (int) (Math.pow(-1, i++) * point.x);
+            view.setX(-startPosition);
+            Utils.translationAnimation(startPosition, view, translationButtonSpeed);
+            view.setOnClickListener(mainActivityListener);
         }
     }
 
@@ -58,12 +101,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         sensorManager.unregisterListener(sensorListener);
-
+        menu.saveMenu();
         super.onStop();
     }
 
     protected void onShake(){
-        ((CircleView)findViewById(R.id.circleView)).invalidate();
+        circleView.invalidate();
+        ((CircleView)findViewById(R.id.circleView)).animate().alpha(1);
     }
 
     private final SensorEventListener sensorListener = new SensorEventListener() {
