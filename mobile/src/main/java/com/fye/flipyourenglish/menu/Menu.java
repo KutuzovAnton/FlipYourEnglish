@@ -28,8 +28,6 @@ public class Menu {
     public static final String APP_PREFERENCES = "settings";
     private static String TRANSLATION_CARD_SPEED = "translationCardSpeed";
     public static String LANGUAGE = "language";
-    public static String ENGLISH = "English";
-    public static String RUSSIAN = "Russian";
     private static String language;
     private static Long translationCardSpeed;
     private Context context;
@@ -54,7 +52,7 @@ public class Menu {
         translationCardSpeed = mSettings.getLong(TRANSLATION_CARD_SPEED, 300);
         InputMethodSubtype ims = context.getSystemService(InputMethodManager.class).getCurrentInputMethodSubtype();
         String locale = ims.getLocale();
-        String defaultLanguage = locale.equals("ru") ? RUSSIAN : ENGLISH;
+        String defaultLanguage = locale.equals(Language.RUSSIAN.getShortForm()) ? Language.RUSSIAN.getLanguage() : Language.ENGLISH.getLanguage();
         language = mSettings.getString(LANGUAGE, defaultLanguage);
     }
 
@@ -98,10 +96,5 @@ public class Menu {
     private String setTranslationCardSpeed(String translationCardSpeed) {
         Menu.translationCardSpeed = Long.valueOf(translationCardSpeed);
         return translationCardSpeed;
-    }
-
-    private String changeLanguage(String language) {
-        Menu.language = language;
-        return language;
     }
 }
