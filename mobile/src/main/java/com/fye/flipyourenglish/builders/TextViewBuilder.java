@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
-import com.fye.flipyourenglish.activities.OnSwipeTouchListener;
 
 /**
  * Created by Anton_Kutuzau on 3/29/2017.

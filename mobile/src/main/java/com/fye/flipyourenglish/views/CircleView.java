@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.UiThread;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RemoteViews.RemoteView;
@@ -20,9 +20,11 @@ import java.util.Random;
 public class CircleView extends View {
     Paint paint = null;
     Paint paint1 = null;
+    private Context context;
 
     public CircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         paint = new Paint();
         paint1 = new Paint();
     }
@@ -32,7 +34,7 @@ public class CircleView extends View {
         super.onDraw(canvas);
         Random random = new Random();
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(getResources().getColor(R.color.bright_greenOpacity));
+        paint.setColor(ContextCompat.getColor(context, R.color.bright_greenOpacity));
         paint1.setStyle(Paint.Style.STROKE);
         paint1.setColor(Color.WHITE);
         paint.setAntiAlias(true);

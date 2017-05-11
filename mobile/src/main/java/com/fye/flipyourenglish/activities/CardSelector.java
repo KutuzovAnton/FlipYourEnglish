@@ -1,10 +1,9 @@
 package com.fye.flipyourenglish.activities;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -52,11 +51,11 @@ public class CardSelector extends AppCompatActivity {
                 return;
             }
             if (view.isActivated()) {
-                view.setBackgroundColor(getResources().getColor(R.color.bright_green));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.bright_green));
                 view.setActivated(false);
                 adapter.getItem(position).setActive(0);
             } else {
-                view.setBackgroundColor(getResources().getColor(R.color.blue));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
                 view.setActivated(true);
                 adapter.getItem(position).setActive(1);
             }

@@ -1,14 +1,19 @@
 package com.fye.flipyourenglish.menu;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.InputMethodSubtype;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.fye.flipyourenglish.R;
+import com.fye.flipyourenglish.activities.LanguageChanger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,17 +27,21 @@ public class Menu {
 
     public static final String APP_PREFERENCES = "settings";
     private static String TRANSLATION_CARD_SPEED = "translationCardSpeed";
-    private static String LANGUAGE = "language";
+    public static String LANGUAGE = "language";
+    public static String ENGLISH = "English";
+    public static String RUSSIAN = "Russian";
     private static String language;
     private static Long translationCardSpeed;
     private Context context;
+    private Activity activity;
     private NavigationView navigationView;
     private SharedPreferences mSettings;
 
     public static long translationButtonSpeed = 600;
 
 
-    public Menu(Context context, NavigationView navigationView, SharedPreferences mSettings) {
+    public Menu(Activity activity, Context context, NavigationView navigationView, SharedPreferences mSettings) {
+        this.activity = activity;
         this.context = context;
         this.navigationView = navigationView;
         this.mSettings = mSettings;
@@ -43,7 +52,10 @@ public class Menu {
 
     private void initMenu() {
         translationCardSpeed = mSettings.getLong(TRANSLATION_CARD_SPEED, 300);
-        language = mSettings.getString(LANGUAGE, "English");
+        InputMethodSubtype ims = context.getSystemService(InputMethodManager.class).getCurrentInputMethodSubtype();
+        String locale = ims.getLocale();
+        String defaultLanguage = locale.equals("ru") ? RUSSIAN : ENGLISH;
+        language = mSettings.getString(LANGUAGE, defaultLanguage);
     }
 
     public void saveMenu() {
@@ -58,7 +70,10 @@ public class Menu {
     }
 
     private void initLanguage() {
-        initSpinner(R.id.menu_language, Arrays.asList("English", "Russian"), this::setLanguage, language);
+        navigationView.getMenu().findItem(R.id.menu_language).setOnMenuItemClickListener(item -> {
+            activity.startActivity(new Intent(activity, LanguageChanger.class));
+            return true;
+        });
     }
 
     private void initSpinner(int id, List<String> values, Function<String, String> function, String defaultValue) {
@@ -85,12 +100,8 @@ public class Menu {
         return translationCardSpeed;
     }
 
-    private String setLanguage(String language) {
+    private String changeLanguage(String language) {
         Menu.language = language;
-        return language;
-    }
-
-    public static String getLanguage() {
         return language;
     }
 }

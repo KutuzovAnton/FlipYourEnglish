@@ -2,6 +2,7 @@ package com.fye.flipyourenglish.activities;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageButton;
@@ -56,7 +57,7 @@ public class CardRemover extends AppCompatActivity {
         TextView textView = textViewBuilder
                 .setSize(30)
                 .setHint(card.getHint())
-                .setColor(getResources().getColor(R.color.white))
+                .setColor(ContextCompat.getColor(this, R.color.white))
                 .build();
         textView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {

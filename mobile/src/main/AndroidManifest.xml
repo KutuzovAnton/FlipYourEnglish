@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/en_ru"
         android:supportsRtl="true"
-        android:theme="@style/appThema"
+        android:theme="@style/appTheme"
         android:debuggable="true">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -58,6 +58,15 @@
         </activity>
 
         <activity android:name=".activities.CardSelector"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.LanguageChanger"
             android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
