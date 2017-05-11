@@ -10,7 +10,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    android:theme="@style/appThema">
+    android:theme="@style/appTheme">
 
     <ImageView
         android:id="@+id/imageView"

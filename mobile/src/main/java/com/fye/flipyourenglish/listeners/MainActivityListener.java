@@ -2,17 +2,16 @@ package com.fye.flipyourenglish.listeners;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.design.widget.NavigationView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.activities.CardReader;
 import com.fye.flipyourenglish.activities.CardRemover;
 import com.fye.flipyourenglish.activities.CardSelector;
 import com.fye.flipyourenglish.activities.CardWriter;
+import com.fye.flipyourenglish.menu.Menu;
 
 
 /**
@@ -47,8 +46,14 @@ public class MainActivityListener implements View.OnClickListener, NavigationVie
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        //TODO we can running some activate
+        switch (item.getItemId()) {
+            case R.id.radioButtonEnglish:
+                activity.startActivity(activity.getIntent());
+                break;
+            case R.id.radioButtonRussian:
+                activity.startActivity(activity.getIntent());
+                break;
+        }
         return true;
     }
 

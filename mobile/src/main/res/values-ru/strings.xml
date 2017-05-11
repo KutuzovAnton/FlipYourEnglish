@@ -1,0 +1,19 @@
+<resources>
+    <string name="view_cards">Показать карточки</string>
+    <string name="add_cards">Добавить карточки</string>
+    <string name="delete_cards">Удалить карточки</string>
+    <string name="select_cards">Выбрать карточки</string>
+    <string name="add_card">Добавить карточку</string>
+
+    <string name="help">Помощь</string>
+
+
+    <string name="navigation_drawer_open">Открыто меню</string>
+    <string name="navigation_drawer_close">Закрыто меню</string>
+
+    <string name="main_options">Основные настройки</string>
+    <string name="card_spinner_speed">Скорость анимации карточки</string>
+    <string name="spinner_language">Язык</string>
+    <string name="english">Английский</string>
+    <string name="russian">Русский</string>
+</resources>

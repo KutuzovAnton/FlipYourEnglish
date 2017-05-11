@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.view.Gravity;
@@ -49,14 +50,14 @@ public class Utils {
         }
         Snackbar snack = Snackbar.make(currentFocus, builder, Snackbar.LENGTH_SHORT);
         View view = snack.getView();
-        view.setBackgroundColor((context.getResources().getColor(R.color.bright_greenOpacity)));
+        view.setBackgroundColor((ContextCompat.getColor(context, R.color.bright_greenOpacity)));
         TextView textView = (TextView) view.findViewById(R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = gravity;
         view.setLayoutParams(params);
         snack.setAction("CLOSE", v -> {
-        }).setActionTextColor(context.getResources().getColor(R.color.editTextColor));
+        }).setActionTextColor(ContextCompat.getColor(context, R.color.editTextColor));
         snack.show();
     }
 
