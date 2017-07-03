@@ -12,21 +12,25 @@ import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.menu.Language;
 import com.fye.flipyourenglish.menu.Menu;
 
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+
 /**
  * Created by Anton_Kutuzau on 5/11/2017.
  */
 
+@EActivity(R.layout.activity_language)
 public class LanguageChanger extends AppCompatActivity {
 
-    private RadioButton english;
-    private RadioButton russian;
+    @ViewById(R.id.radioButtonEnglish)
+    RadioButton english;
+    @ViewById(R.id.radioButtonRussian)
+    RadioButton russian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_language);
-        russian = (RadioButton) findViewById(R.id.radioButtonRussian);
-        english = (RadioButton) findViewById(R.id.radioButtonEnglish);
         russian.setOnClickListener(v -> changeLanguageAndReturn(Language.RUSSIAN));
         english.setOnClickListener(v -> changeLanguageAndReturn(Language.ENGLISH));
     }

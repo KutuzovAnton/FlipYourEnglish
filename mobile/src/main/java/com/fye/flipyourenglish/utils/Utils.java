@@ -3,6 +3,8 @@ package com.fye.flipyourenglish.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
+
+import java.util.Locale;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
@@ -68,4 +72,20 @@ public class Utils {
             fab.show();
         }
     }
+
+    public static String[] createArrayOfString(Object ...objects) {
+        String[] array = new String[objects.length];
+        int index = 0;
+        for (Object object: objects) {
+            array[index++] = String.valueOf(object);
+        }
+        return array;
+    }
+
+    public static Point getWindowsSize(Activity activity) {
+        Point point = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(point);
+        return point;
+    }
+
 }

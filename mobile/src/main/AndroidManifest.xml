@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/appTheme"
         android:debuggable="true">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +30,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardReader"
-                  android:parentActivityName=".MainActivity">
+        <activity android:name=".activities.CardReader_"
+                  android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,8 +39,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardWriter"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".activities.CardWriter_"
+            android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,8 +48,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardRemover"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".activities.CardRemover_"
+            android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,8 +57,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardSelector"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".activities.CardSelector_"
+            android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,8 +66,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LanguageChanger"
-            android:parentActivityName=".MainActivity">
+        <activity android:name=".activities.LanguageChanger_"
+            android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

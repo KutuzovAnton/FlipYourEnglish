@@ -11,49 +11,46 @@ import com.fye.flipyourenglish.activities.CardReader;
 import com.fye.flipyourenglish.activities.CardRemover;
 import com.fye.flipyourenglish.activities.CardSelector;
 import com.fye.flipyourenglish.activities.CardWriter;
-import com.fye.flipyourenglish.menu.Menu;
+
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 
 /**
  * Created by Anton_Kutuzau on 3/13/2017.
  */
 
+@EBean
 public class MainActivityListener implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    private final Activity activity;
-
-    public MainActivityListener(Activity activity) {
-        this.activity = activity;
-    }
+    @RootContext
+    protected Activity activity;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.view_cards:
-                activity.startActivity(new Intent(activity, CardReader.class));
+                startActivity(CardReader.class);
                 break;
             case R.id.add_cards:
-                activity.startActivity(new Intent(activity, CardWriter.class));
+                startActivity(CardWriter.class);
                 break;
             case R.id.select_cards:
-                activity.startActivity(new Intent(activity, CardSelector.class));
+                startActivity(CardSelector.class);
                 break;
             case R.id.delete_cards:
-                activity.startActivity(new Intent(activity, CardRemover.class));
+                startActivity(CardRemover.class);
                 break;
         }
     }
 
+    private void startActivity(Class clazz) {
+        activity.startActivity(new Intent(activity, clazz));
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.radioButtonEnglish:
-                activity.startActivity(activity.getIntent());
-                break;
-            case R.id.radioButtonRussian:
-                activity.startActivity(activity.getIntent());
-                break;
-        }
+        activity.startActivity(activity.getIntent());
         return true;
     }
 
