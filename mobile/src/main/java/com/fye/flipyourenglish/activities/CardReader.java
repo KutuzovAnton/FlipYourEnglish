@@ -63,6 +63,7 @@ public class CardReader extends AppCompatActivity {
             printWord();
             setOnTouchListener();
             setTextWatcher(cardEditView);
+            ((FloatingActionButton) findViewById(R.id.editCardFAB)).show();
         } else {
             Utils.showSnackBar(this, "No cards", ic_dialog_alert, Gravity.BOTTOM);
         }

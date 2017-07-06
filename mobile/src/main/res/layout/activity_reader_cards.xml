@@ -64,6 +64,7 @@
         android:layout_marginRight="16dp"
         android:clickable="true"
         android:onClick="onClickEditCard"
+        android:visibility="invisible"
         app:backgroundTint="@color/bright_green"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"

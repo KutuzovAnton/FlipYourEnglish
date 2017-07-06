@@ -75,7 +75,7 @@ public class CardRemover extends AppCompatActivity {
 
     private void removeCard(TextView textView) {
         ((LinearLayout) findViewById(R.id.list_cards_for_remove)).removeView(textView);
-        Optional<Card> findCard = cards.stream().filter(card -> textView.getText().equals(card.toString())).findFirst();
+        Optional<Card> findCard = cards.stream().filter(card -> textView.getHint().toString().equals(card.toString())).findFirst();
         if (findCard.isPresent()) {
             Card card = findCard.get();
             cardRepository.removeById(card.getId());
