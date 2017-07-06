@@ -13,6 +13,7 @@ import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.listeners.GoBackListener;
 import com.fye.flipyourenglish.repositories.CardRepository;
+import com.fye.flipyourenglish.utils.Utils;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class CardSelector extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_cards_for_select);
         ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, cards);
         listView.setAdapter(adapter);
+        Utils.setListViewHeightBasedOnChildren(listView);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             if (adapter.getItem(position) == null) {
                 return;

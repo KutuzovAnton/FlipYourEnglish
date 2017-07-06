@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainRelativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -13,8 +12,8 @@
 
     <ViewSwitcher
         android:id="@+id/cardTextViewSwitcher"
-        android:layout_width="300dp"
-        android:layout_height="180dp"
+        android:layout_width="@dimen/cardWidth"
+        android:layout_height="@dimen/cardHeight"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -28,8 +27,8 @@
 
         <com.fye.flipyourenglish.utils.AutoResizeTextView
             android:id="@+id/card"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="@dimen/cardHeight"
             android:layout_gravity="center_vertical|center_horizontal|center"
             android:background="@drawable/card_style"
             android:gravity="center_vertical|center_horizontal|center"
@@ -40,15 +39,12 @@
 
         <com.fye.flipyourenglish.utils.AutoResizeEditText
             android:id="@+id/card_edit_view"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
+            android:layout_width="@dimen/cardWidth"
+            android:layout_height="@dimen/cardHeight"
             android:layout_gravity="center_vertical|center_horizontal|center"
             android:background="@drawable/card_style"
             android:gravity="center_vertical|center_horizontal|center"
             android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-            android:lines="5"
-            android:maxLines="10"
-            android:minLines="1"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="60sp"

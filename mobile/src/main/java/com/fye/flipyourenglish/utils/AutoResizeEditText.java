@@ -6,32 +6,28 @@ package com.fye.flipyourenglish.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Editable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.EditText;
 
+import static com.fye.flipyourenglish.utils.Utils.autoResizer;
+
 public class AutoResizeEditText extends EditText {
 
-    private AutoResize autoResizer;
 
     public AutoResizeEditText(Context context) {
         super(context);
-        this.autoResizer = new AutoResize();
         initialize();
     }
 
     public AutoResizeEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.autoResizer = new AutoResize();
         initialize();
     }
 
     public AutoResizeEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.autoResizer = new AutoResize();
         initialize();
     }
 
@@ -76,13 +72,6 @@ public class AutoResizeEditText extends EditText {
             autoResizer.setmSpacingAdd(add);
         }
     }
-//todo is it needed
-//    public void setMinTextSize(float minTextSize) {
-//        autoResizer.setmMinTextSize(minTextSize);
-//        if (autoResizer != null) {
-//            super.setTextSize(TypedValue.COMPLEX_UNIT_PX, autoResizer.adjustTextSize(getText()));
-//        }
-//    }
 
     @Override
     protected void onTextChanged(final CharSequence text, final int start,

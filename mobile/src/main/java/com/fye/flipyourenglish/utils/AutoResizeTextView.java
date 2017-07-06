@@ -8,13 +8,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
+import static com.fye.flipyourenglish.utils.Utils.autoResizer;
 
 public class AutoResizeTextView extends TextView {
 
-    private static AutoResize autoResizer;
 
     static{
         autoResizer = new AutoResize();
@@ -75,13 +74,6 @@ public class AutoResizeTextView extends TextView {
             autoResizer.setmSpacingAdd(add);
         }
     }
-//todo is it needed
-//    public void setMinTextSize(float minTextSize) {
-//        autoResizer.setmMinTextSize(minTextSize);
-//        if(autoResizer!=null) {
-//            super.setTextSize(TypedValue.COMPLEX_UNIT_PX, autoResizer.adjustTextSize(getText()));
-//        }
-//    }
 
     @Override
     protected void onTextChanged(final CharSequence text, final int start,

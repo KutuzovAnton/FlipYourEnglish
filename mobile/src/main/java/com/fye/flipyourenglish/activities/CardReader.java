@@ -133,6 +133,7 @@ public class CardReader extends AppCompatActivity {
         AutoResizeEditText cardEditView = (AutoResizeEditText) switcher.findViewById(R.id.card_edit_view);
         AutoResizeTextView cardView = (AutoResizeTextView) switcher.findViewById(R.id.card);
         cardEditView.setText(cardView.getText());
+        findViewById(R.id.editCardFAB).setEnabled(false);
     }
 
     public void onClickConfirmText(View view) {
@@ -142,6 +143,7 @@ public class CardReader extends AppCompatActivity {
         getCurrentWord().setWord(cardEditView.getText().toString());
         cardRepository.update(cards.get(currentCardIndex));
         ((FloatingActionButton) findViewById(R.id.confirmCardFAB)).hide();
+        findViewById(R.id.editCardFAB).setEnabled(true);
     }
 
     private ViewSwitcher switchAndGetTextView(View view) {

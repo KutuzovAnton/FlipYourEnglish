@@ -1,55 +1,49 @@
 package com.fye.flipyourenglish.utils;
 
+import android.content.res.Resources;
 import android.graphics.RectF;
-import android.text.Editable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.widget.EditText;
+
+import com.fye.flipyourenglish.R;
 
 /**
  * Created by Igor_Filler on 5/12/2017.
  */
 
-//todo check getText()
-public class AutoResize {
-    public static final int NO_LINE_LIMIT = -1;
-    //todo move dimenstions to config file
+class AutoResize {
+    static final int NO_LINE_LIMIT = -1;
     private RectF mTextRect = new RectF(0.0f, 0.0f, 300.0f, 180.0f);
 
     private RectF mAvailableSpaceRect = new RectF(0.0f, 0.0f, 300.0f, 180.0f);
 
     private TextPaint mPaint = new TextPaint();
 
-    private float mMaxTextSize = 100.0f;
+    private float mMaxTextSize = 180.0f;
 
     private float mSpacingMult = 1.0f;
 
     private float mSpacingAdd = 0.0f;
 
-    private float mMinTextSize = 20.0f;
+    private float mMinTextSize = 60.0f;
 
     private int mWidthLimit = 300;
 
     private int mMaxLines = 10;
 
-//    private boolean mInitializedDimens;
-
     private int onTestSize(int suggestedSize, RectF availableSPace, String textCharsSeq) {
         mPaint.setTextSize(suggestedSize);
-        String text = textCharsSeq;
-        boolean singleline = mMaxLines == 1;
-        if (singleline) {
+        if (mMaxLines == 1) {
             mTextRect.bottom = mPaint.getFontSpacing();
-            mTextRect.right = mPaint.measureText(text);
+            mTextRect.right = mPaint.measureText(textCharsSeq);
         } else {
-            StaticLayout layout = new StaticLayout(text, mPaint,
+            StaticLayout layout = new StaticLayout(textCharsSeq, mPaint,
                     mWidthLimit, Layout.Alignment.ALIGN_NORMAL, mSpacingMult,
                     mSpacingAdd, true);
 
             // Return early if we have more lines
-            if (mMaxLines != NO_LINE_LIMIT
-                    && layout.getLineCount() > mMaxLines) {
+            if (layout.getLineCount() > mMaxLines) {
                 return 1;
             }
             mTextRect.bottom = layout.getHeight();
@@ -122,7 +116,7 @@ public class AutoResize {
         return mPaint;
     }
 
-    public void setmPaint(TextPaint mPaint) {
+    void setmPaint(TextPaint mPaint) {
         this.mPaint = mPaint;
     }
 
@@ -130,7 +124,7 @@ public class AutoResize {
         return mMaxTextSize;
     }
 
-    public void setmMaxTextSize(float mMaxTextSize) {
+    void setmMaxTextSize(float mMaxTextSize) {
         this.mMaxTextSize = mMaxTextSize;
     }
 
@@ -138,7 +132,7 @@ public class AutoResize {
         return mSpacingMult;
     }
 
-    public void setmSpacingMult(float mSpacingMult) {
+    void setmSpacingMult(float mSpacingMult) {
         this.mSpacingMult = mSpacingMult;
     }
 
@@ -146,7 +140,7 @@ public class AutoResize {
         return mSpacingAdd;
     }
 
-    public void setmSpacingAdd(float mSpacingAdd) {
+    void setmSpacingAdd(float mSpacingAdd) {
         this.mSpacingAdd = mSpacingAdd;
     }
 
@@ -154,7 +148,7 @@ public class AutoResize {
         return mMinTextSize;
     }
 
-    public void setmMinTextSize(float mMinTextSize) {
+    void setmMinTextSize(float mMinTextSize) {
         this.mMinTextSize = mMinTextSize;
     }
 
@@ -170,19 +164,11 @@ public class AutoResize {
         return NO_LINE_LIMIT;
     }
 
-    public int getmMaxLines() {
+    int getmMaxLines() {
         return mMaxLines;
     }
 
-    public void setmMaxLines(int mMaxLines) {
+    void setmMaxLines(int mMaxLines) {
         this.mMaxLines = mMaxLines;
     }
-
-/*    public boolean ismInitializedDimens() {
-        return mInitializedDimens;
-    }
-
-    public void setmInitializedDimens(boolean mInitializedDimens) {
-        this.mInitializedDimens = mInitializedDimens;
-    }*/
 }
