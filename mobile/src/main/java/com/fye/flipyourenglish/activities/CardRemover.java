@@ -42,7 +42,7 @@ public class CardRemover extends AppCompatActivity {
     Toolbar toolbar;
 
     @AfterViews
-    private void init() {
+    protected void init() {
         setSupportActionBar(toolbar);
         cards = cardRepository.findAll();
         LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 100);

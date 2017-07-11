@@ -14,6 +14,7 @@ import com.fye.flipyourenglish.entities.Cards;
 import com.fye.flipyourenglish.entities.Word;
 import com.google.common.base.MoreObjects;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -42,7 +43,7 @@ public class CardRepository {
     private DataBaseCreator dataBaseCreator;
     private WordRepository wordRepository;
 
-    @AfterViews
+    @AfterInject
     public void init() {
         dataBaseCreator = new DataBaseCreator(context);
         open();

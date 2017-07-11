@@ -40,13 +40,13 @@ public class CardReader extends AppCompatActivity {
     private Cards cards;
 
     @ViewById(R.id.card)
-    protected TextView textView;
+    TextView textView;
     @ViewById(R.id.card_edit_view)
-    protected EditText cardEditView;
+    EditText cardEditView;
     @ViewById(R.id.cardTextViewSwitcher)
-    protected ViewSwitcher cardSwitchView;
+    ViewSwitcher cardSwitchView;
     @Bean
-    protected CardRepository cardRepository;
+    CardRepository cardRepository;
     private boolean isTranslate = true;
 
     @AfterViews
