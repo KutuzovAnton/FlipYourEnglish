@@ -8,9 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.fye.flipyourenglish.R;
@@ -19,6 +17,8 @@ import com.fye.flipyourenglish.entities.Word;
 import com.fye.flipyourenglish.listeners.GoBackListener;
 import com.fye.flipyourenglish.menu.Menu;
 import com.fye.flipyourenglish.repositories.CardRepository;
+import com.fye.flipyourenglish.utils.AutoResizeEditText;
+import com.fye.flipyourenglish.utils.AutoResizeTextView;
 import com.fye.flipyourenglish.utils.Utils;
 
 import org.springframework.util.StringUtils;
@@ -36,8 +36,8 @@ public class CardReader extends AppCompatActivity {
 
     private static final int ROTATION_SPEED = 1000;
     private List<Card> cards;
-    private TextView textView;
-    private EditText cardEditView;
+    private AutoResizeTextView textView;
+    private AutoResizeEditText cardEditView;
     private ViewSwitcher cardSwitchView;
     private boolean isTranslate = true;
     private int currentCardIndex = 0;
@@ -46,8 +46,8 @@ public class CardReader extends AppCompatActivity {
     private void init() {
         ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
         goBack.setOnClickListener(new GoBackListener(this));
-        textView = ((TextView) findViewById(R.id.card));
-        cardEditView = (EditText) findViewById(R.id.card_edit_view);
+        textView = ((AutoResizeTextView) findViewById(R.id.card));
+        cardEditView = (AutoResizeEditText) findViewById(R.id.card_edit_view);
         cardSwitchView = (ViewSwitcher) findViewById(R.id.cardTextViewSwitcher);
         cardRepository = new CardRepository(this);
         cards = cardRepository.findActiveCards();
@@ -63,6 +63,7 @@ public class CardReader extends AppCompatActivity {
             printWord();
             setOnTouchListener();
             setTextWatcher(cardEditView);
+            ((FloatingActionButton) findViewById(R.id.editCardFAB)).show();
         } else {
             Utils.showSnackBar(this, "No cards", ic_dialog_alert, Gravity.BOTTOM);
         }
@@ -113,7 +114,7 @@ public class CardReader extends AppCompatActivity {
         textView.setText(getCurrentWord().getWord());
     }
 
-    private void setTextWatcher(EditText word) {
+    private void setTextWatcher(AutoResizeEditText word) {
         word.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -130,18 +131,20 @@ public class CardReader extends AppCompatActivity {
 
     public void onClickEditCard(View view) {
         ViewSwitcher switcher = switchAndGetTextView(view);
-        EditText cardEditView = (EditText) switcher.findViewById(R.id.card_edit_view);
-        TextView cardView = (TextView) switcher.findViewById(R.id.card);
+        AutoResizeEditText cardEditView = (AutoResizeEditText) switcher.findViewById(R.id.card_edit_view);
+        AutoResizeTextView cardView = (AutoResizeTextView) switcher.findViewById(R.id.card);
         cardEditView.setText(cardView.getText());
+        findViewById(R.id.editCardFAB).setEnabled(false);
     }
 
     public void onClickConfirmText(View view) {
         ViewSwitcher viewSwitcher = switchAndGetTextView(textView);
-        EditText cardEditView = (EditText) viewSwitcher.findViewById(R.id.card_edit_view);
-        ((TextView) viewSwitcher.findViewById(R.id.card)).setText(cardEditView.getText().toString());
+        AutoResizeEditText cardEditView = (AutoResizeEditText) viewSwitcher.findViewById(R.id.card_edit_view);
+        ((AutoResizeTextView) viewSwitcher.findViewById(R.id.card)).setText(cardEditView.getText().toString());
         getCurrentWord().setWord(cardEditView.getText().toString());
         cardRepository.update(cards.get(currentCardIndex));
         ((FloatingActionButton) findViewById(R.id.confirmCardFAB)).hide();
+        findViewById(R.id.editCardFAB).setEnabled(true);
     }
 
     private ViewSwitcher switchAndGetTextView(View view) {
@@ -150,7 +153,7 @@ public class CardReader extends AppCompatActivity {
         return switcher;
     }
 
-    private void resolveVisibilityForFAB(EditText view) {
+    private void resolveVisibilityForFAB(AutoResizeEditText view) {
         if (!StringUtils.isEmpty(view.getText())) {
             Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.confirmCardFAB), View.VISIBLE);
         } else {

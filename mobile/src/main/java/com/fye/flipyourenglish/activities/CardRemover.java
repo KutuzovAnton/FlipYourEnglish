@@ -15,6 +15,7 @@ import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.listeners.GoBackListener;
 import com.fye.flipyourenglish.menu.Menu;
 import com.fye.flipyourenglish.repositories.CardRepository;
+import com.fye.flipyourenglish.repositories.WordRepository;
 import com.fye.flipyourenglish.utils.Utils;
 
 import java.util.List;
@@ -28,11 +29,13 @@ public class CardRemover extends AppCompatActivity {
 
     private List<Card> cards;
     private CardRepository cardRepository;
+    private WordRepository wordRepository;
 
     private void init() {
         ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
         goBack.setOnClickListener(new GoBackListener(this));
         cardRepository = new CardRepository(this);
+        wordRepository = new WordRepository(this);
         cards = cardRepository.findAll();
     }
 
@@ -73,10 +76,12 @@ public class CardRemover extends AppCompatActivity {
 
     private void removeCard(TextView textView) {
         ((LinearLayout) findViewById(R.id.list_cards_for_remove)).removeView(textView);
-        Optional<Card> findCard = cards.stream().filter(card -> textView.getText().equals(card.toString())).findFirst();
+        Optional<Card> findCard = cards.stream().filter(card -> textView.getHint().toString().equals(card.toString())).findFirst();
         if (findCard.isPresent()) {
-            cardRepository.removeById(findCard.get().getId());
-            cards.remove(findCard.get());
+            Card card = findCard.get();
+            cardRepository.removeById(card.getId());
+            wordRepository.removeById(card.getWordA().getId(), card.getWordB().getId());
+            cards.remove(card);
         }
     }
 
