@@ -12,8 +12,11 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fye.flipyourenglish.R;
@@ -26,6 +29,7 @@ import java.util.Locale;
 
 public class Utils {
 
+    public static AutoResize autoResizer = new AutoResize();
     public static final String DATABASE_NAME = "core.db";
 
     public static void translation(int size, View view, Runnable function1, Runnable function2, Long translationCardSpeed) {
@@ -94,4 +98,20 @@ public class Utils {
         return point;
     }
 
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
 }

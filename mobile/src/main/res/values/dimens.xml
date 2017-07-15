@@ -4,6 +4,8 @@
     <dimen name="text">64sp</dimen>
     <dimen name="border">2dp</dimen>
     <dimen name="negborder">-3dp</dimen>
+    <dimen name="cardWidth">300dp</dimen>
+    <dimen name="cardHeight">180dp</dimen>
     <item name="gradient_radius" type="integer">500</item>
     <item name="shadowDx" type="integer">2</item>
     <item name="shadowDy" type="integer">2</item>

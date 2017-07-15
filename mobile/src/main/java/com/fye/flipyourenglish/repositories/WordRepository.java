@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.fye.flipyourenglish.db.DataBaseCreator;
+import com.fye.flipyourenglish.db.WordsTablesCreator;
 import com.fye.flipyourenglish.entities.Word;
 
 
@@ -73,5 +74,9 @@ public class WordRepository {
 
         return new Word(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_WORD)));
+    }
+    public void removeById(Long englishWordId, Long russianWordId){
+        readFromDB.delete(WordsTablesCreator.TABLE_ENGLISH_WORDS, COLUMN_ID + "= ?", new String[] { String.valueOf(englishWordId) });
+        readFromDB.delete(WordsTablesCreator.TABLE_RUSSIAN_WORDS, COLUMN_ID + "= ?", new String[] { String.valueOf(russianWordId) });
     }
 }

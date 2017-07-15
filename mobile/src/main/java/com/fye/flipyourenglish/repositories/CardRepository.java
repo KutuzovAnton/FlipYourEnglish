@@ -131,6 +131,16 @@ public class CardRepository {
         values.put(CardTableCreator.COLUMN_WORD_B_ID, card.getWordB().getId());
         values.put(CardTableCreator.COLUMN_ACTIVE, card.getActive());
         readFromDB.update(TABLE_CARDS, values, COLUMN_ID + "= ?", new String[]{ String.valueOf(card.getId()) });
+        updateWords(card);
+
+    }
+
+    private void updateWords(Card card) {
+        ContentValues values = new ContentValues();
+        values.put(WordsTablesCreator.COLUMN_WORD, card.getWordA().getWord());
+        readFromDB.update(WordsTablesCreator.TABLE_ENGLISH_WORDS, values, WordsTablesCreator.COLUMN_ID + "= ?", new String[]{String.valueOf(card.getWordA().getId())});
+        values.put(WordsTablesCreator.COLUMN_WORD, card.getWordB().getWord());
+        readFromDB.update(WordsTablesCreator.TABLE_RUSSIAN_WORDS, values, WordsTablesCreator.COLUMN_ID + "= ?", new String[]{String.valueOf(card.getWordB().getId())});
     }
 
     public void updateAll(Cards cards) {

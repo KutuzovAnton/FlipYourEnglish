@@ -11,6 +11,7 @@ import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
 import com.fye.flipyourenglish.entities.Cards;
 import com.fye.flipyourenglish.repositories.CardRepository;
+import com.fye.flipyourenglish.utils.Utils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -50,6 +51,7 @@ public class CardSelector extends AppCompatActivity {
     private void createArrayAdapter() {
         ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, cards.getAsList());
         listView.setAdapter(adapter);
+        Utils.setListViewHeightBasedOnChildren(listView);
         listView.setOnItemClickListener((parent, view, position, id) -> updateStatus(view, adapter, position, view.isActivated()));
     }
 
