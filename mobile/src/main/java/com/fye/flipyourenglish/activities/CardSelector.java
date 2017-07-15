@@ -1,67 +1,66 @@
 package com.fye.flipyourenglish.activities;
 
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.entities.Card;
-import com.fye.flipyourenglish.listeners.GoBackListener;
+import com.fye.flipyourenglish.entities.Cards;
 import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.Utils;
 
-import java.util.List;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import static com.fye.flipyourenglish.R.layout.activity_selecter_cards;
 
 /**
  * Created by Anton_Kutuzau on 3/22/2017.
  */
+
+@EActivity(activity_selecter_cards)
 public class CardSelector extends AppCompatActivity {
 
-    private List<Card> cards;
-    private CardRepository cardRepository;
+    private Cards cards;
+    @Bean
+    protected CardRepository cardRepository;
+    @ViewById(R.id.toolbar)
+    protected Toolbar toolbar;
+    @ViewById(R.id.list_cards_for_select)
+    protected ListView listView;
 
-    private void init() {
-        ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
-        goBack.setOnClickListener(new GoBackListener(this));
-        cardRepository = new CardRepository(this);
-        cards = cardRepository.findAll();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(activity_selecter_cards);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    @AfterViews
+    protected void init() {
         setSupportActionBar(toolbar);
-        init();
+        cards = cardRepository.findAll();
         createArrayAdapter();
     }
 
+    @Click(R.id.go_back)
+    protected void goBack() {
+        finish();
+    }
+
     private void createArrayAdapter() {
-        ListView listView = (ListView) findViewById(R.id.list_cards_for_select);
-        ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, cards);
+        ArrayAdapter<Card> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.card, cards.getAsList());
         listView.setAdapter(adapter);
         Utils.setListViewHeightBasedOnChildren(listView);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            if (adapter.getItem(position) == null) {
-                return;
-            }
-            if (view.isActivated()) {
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.bright_green));
-                view.setActivated(false);
-                adapter.getItem(position).setActive(0);
-            } else {
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
-                view.setActivated(true);
-                adapter.getItem(position).setActive(1);
-            }
-        });
+        listView.setOnItemClickListener((parent, view, position, id) -> updateStatus(view, adapter, position, view.isActivated()));
+    }
+
+    private void updateStatus(View view, ArrayAdapter<Card> adapter, int position, boolean isActive) {
+        if(adapter.getItem(position) != null) {
+            view.setBackgroundColor(ContextCompat.getColor(this, isActive ? R.color.bright_green : R.color.blue));
+            view.setActivated(isActive);
+            adapter.getItem(position).setActive(isActive ? 1 : 0);
+        }
     }
 
     @Override

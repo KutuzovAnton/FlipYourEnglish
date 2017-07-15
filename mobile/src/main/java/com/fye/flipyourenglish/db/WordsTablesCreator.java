@@ -1,14 +1,14 @@
 package com.fye.flipyourenglish.db;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import static com.fye.flipyourenglish.utils.Utils.DATABASE_NAME;
+
+import org.androidannotations.annotations.EBean;
 
 /**
  * Created by Anton_Kutuzau on 4/18/2017.
  */
 
+@EBean
 public class WordsTablesCreator {
 
     public static final String TABLE_ENGLISH_WORDS = "english_words";

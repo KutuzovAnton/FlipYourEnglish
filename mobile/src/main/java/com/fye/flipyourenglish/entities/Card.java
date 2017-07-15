@@ -12,7 +12,7 @@ public class Card {
     private Long id;
     private Word wordA;
     private Word wordB;
-    private Integer active;
+    private Integer active;//TODO Change onto enum
 
     public Card() {
         wordA = new Word();

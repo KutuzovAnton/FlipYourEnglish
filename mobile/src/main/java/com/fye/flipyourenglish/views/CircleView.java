@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,35 +20,39 @@ import java.util.Random;
  */
 @RemoteView
 public class CircleView extends View {
-    Paint paint = null;
-    Paint paint1 = null;
+
+    private Paint innerCircle;
+    private Random random;
     private Context context;
+
 
     public CircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setBackground(context.getDrawable(R.drawable.ground));
         this.context = context;
-        paint = new Paint();
-        paint1 = new Paint();
+        random = new Random();
+        innerCircle = createCircle(Paint.Style.FILL_AND_STROKE);
+    }
+
+    private Paint createCircle(Paint.Style style) {
+        Paint circle = new Paint();
+        circle.setStyle(style);
+        return circle;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Random random = new Random();
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(ContextCompat.getColor(context, R.color.bright_greenOpacity));
-        paint1.setStyle(Paint.Style.STROKE);
-        paint1.setColor(Color.WHITE);
-        paint.setAntiAlias(true);
-        paint1.setAntiAlias(true);
-        for(int i = 0; i < 45; i++) {
-            int radius;
-            radius = random.nextInt(100)+10;
+        int numOfCircles = 60;
+        int maxRadius = 85;
+        int minRadius = 25;
+        for (int i = 0; i < numOfCircles; i++) {
+            int radius = random.nextInt(maxRadius) + minRadius;
             int x = random.nextInt(getWidth());
             int y = random.nextInt(getHeight());
-            canvas.drawCircle(x, y, radius, paint);
-            canvas.drawCircle(x, y, radius, paint1);
+            innerCircle.setShader(new RadialGradient(x, y,
+                    radius, ContextCompat.getColor(context, R.color.less_bright_green), ContextCompat.getColor(context, R.color.bright_green), Shader.TileMode.MIRROR));
+            canvas.drawCircle(x, y, radius, innerCircle);
         }
-
     }
 }

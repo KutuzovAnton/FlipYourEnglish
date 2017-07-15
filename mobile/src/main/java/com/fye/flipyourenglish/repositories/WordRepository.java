@@ -48,10 +48,7 @@ public class WordRepository {
 
     public Word saveIfAbsent(Word word, String tableName) {
         Word wordFromDB = getWordByValue(word.getWord(), tableName);
-        if(wordFromDB == null) {
-            return save(word, tableName);
-        }
-        return wordFromDB;
+        return wordFromDB != null ? wordFromDB : save(word, tableName);
     }
 
     public Word getWordById(Long id, String table) {
@@ -74,7 +71,6 @@ public class WordRepository {
         if (!cursor.isFirst()) {
             return null;
         }
-
 
         return new Word(cursor.getLong(cursor.getColumnIndex(COLUMN_ID)),
                 cursor.getString(cursor.getColumnIndex(COLUMN_WORD)));

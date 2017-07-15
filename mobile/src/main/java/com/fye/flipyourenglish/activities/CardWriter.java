@@ -1,23 +1,25 @@
 package com.fye.flipyourenglish.activities;
 
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.view.inputmethod.InputMethodSubtype;
-import android.widget.ImageButton;
 
 import com.fye.flipyourenglish.R;
-import com.fye.flipyourenglish.entities.Card;
-import com.fye.flipyourenglish.listeners.GoBackListener;
+import com.fye.flipyourenglish.listeners.AfterTextChangedListner;
 import com.fye.flipyourenglish.repositories.CardRepository;
 import com.fye.flipyourenglish.utils.Utils;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+
+import java.util.Locale;
 
 import static android.R.drawable.ic_dialog_alert;
 import static com.fye.flipyourenglish.R.drawable.ic_done;
@@ -26,71 +28,53 @@ import static com.fye.flipyourenglish.R.drawable.ic_done;
  * Created by Anton_Kutuzau on 3/22/2017.
  */
 
+@EActivity(R.layout.activity_writer_cards)
 public class CardWriter extends AppCompatActivity {
 
-    private CardRepository cardRepository;
-    private TextInputEditText word1;
-    private TextInputEditText word2;
+    @ViewById(R.id.word1)
+    TextInputEditText word1;
+    @ViewById(R.id.word2)
+    TextInputEditText word2;
+    @ViewById(R.id.deleteWord1)
+    FloatingActionButton floatingActionButton1;
+    @ViewById(R.id.deleteWord2)
+    FloatingActionButton floatingActionButton2;
+    @ViewById(R.id.toolbar)
+    Toolbar toolbar;
+    @Bean
+    CardRepository cardRepository;
 
-    private void init() {
-        ImageButton goBack = (ImageButton) findViewById(R.id.go_back);
-        goBack.setOnClickListener(new GoBackListener(this));
-        cardRepository = new CardRepository(this);
-        word1 = (TextInputEditText) findViewById(R.id.word1);
-        word2 = (TextInputEditText) findViewById(R.id.word2);
+    @AfterViews
+    protected void init() {
+        setSupportActionBar(toolbar);
+        Utils.resolveVisibilityForFAB(floatingActionButton1, View.INVISIBLE);
+        Utils.resolveVisibilityForFAB(floatingActionButton2, View.INVISIBLE);
+        addLanguageValidate(word1, true);
+        addLanguageValidate(word2, false);
+        word1.addTextChangedListener(new AfterTextChangedListner(() -> onClickEditText(word1)));
+        word2.addTextChangedListener(new AfterTextChangedListner(() -> onClickEditText(word2)));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_writer_cards);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        init();
-        Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
-        Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
-        addLanguageValidate((TextInputEditText) findViewById(R.id.word1), true);
-        addLanguageValidate((TextInputEditText) findViewById(R.id.word2), false);
-        findViewById(R.id.add_card).setOnClickListener(v -> {
-            Card card = new Card();
-            card.getWordA().setWord(((TextInputEditText) findViewById(R.id.word1)).getText().toString());
-            card.getWordB().setWord(((TextInputEditText) findViewById(R.id.word2)).getText().toString());
-            cardRepository.save(card);
-            Utils.showSnackBar(v.getContext(), "Card has been added", ic_done, Gravity.BOTTOM);
-        });
+    @Click(R.id.go_back)
+    protected void goBack() {
+        finish();
+    }
 
-        setTextWatcher(word1);
-        setTextWatcher(word2);
+    @Click(R.id.add_card)
+    public void addCard() {
+        cardRepository.saveIfAbsent(word1.getText().toString(), word2.getText().toString());
+        Utils.showSnackBar(this, "Card has been added", ic_done, Gravity.BOTTOM);
     }
 
     private void addLanguageValidate(TextInputEditText word, boolean isEnglish) {
         word.setOnTouchListener((v, event) -> {
-            InputMethodSubtype ims = getSystemService(InputMethodManager.class).getCurrentInputMethodSubtype();
-            String locale = ims.getLocale();
+            String locale = Locale.getDefault().getLanguage();
             word.onTouchEvent(event);
-            if (isEnglish && !locale.equals("en_US")) {
+            if ((isEnglish && !locale.equals("en_US")) || (!isEnglish && !locale.equals("ru"))) {
                 Utils.showSnackBar(v.getContext(), "Change language to English", ic_dialog_alert, Gravity.TOP);
                 return false;
             }
-            if (!isEnglish && !locale.equals("ru")) {
-                Utils.showSnackBar(v.getContext(), "Change language to Russian", ic_dialog_alert, Gravity.TOP);
-                return false;
-            }
             return true;
-        });
-    }
-
-    private void setTextWatcher(TextInputEditText word) {
-        word.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            public void afterTextChanged(Editable s) {
-                onClickEditText(word);
-            }
         });
     }
 
@@ -107,23 +91,17 @@ public class CardWriter extends AppCompatActivity {
 
     public void onClickEditText(View view) {
         TextInputEditText textView = (TextInputEditText) view;
-        switch (textView.getId()) {
-            case (R.id.word1):
-                if (!textView.getText().toString().isEmpty()) {
-                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.VISIBLE);
-                } else {
-                    Utils.showSnackBar(view.getContext(), "Word is empty");
-                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord1), View.INVISIBLE);
-                }
-                break;
-            case (R.id.word2):
-                if (!textView.getText().toString().isEmpty()) {
-                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.VISIBLE);
-                } else {
-                    Utils.showSnackBar(view.getContext(), "Word is empty");
-                    Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.deleteWord2), View.INVISIBLE);
-                }
-                break;
+        FloatingActionButton currantFloatingActionButton = null;
+        if(textView.getId() == R.id.word1) {
+            currantFloatingActionButton = floatingActionButton1;
+        } else if(textView.getId() == R.id.word2) {
+            currantFloatingActionButton = floatingActionButton2;
+        }
+        if (currantFloatingActionButton != null && !textView.getText().toString().isEmpty()) {
+            Utils.resolveVisibilityForFAB(currantFloatingActionButton, View.VISIBLE);
+        } else {
+            Utils.showSnackBar(view.getContext(), "Word is empty");
+            Utils.resolveVisibilityForFAB(currantFloatingActionButton, View.INVISIBLE);
         }
     }
 

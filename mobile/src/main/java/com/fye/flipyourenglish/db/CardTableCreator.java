@@ -2,11 +2,14 @@ package com.fye.flipyourenglish.db;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import org.androidannotations.annotations.EBean;
+
 
 /**
  * Created by Anton_Kutuzau on 4/18/2017.
  */
 
+@EBean
 public class CardTableCreator {
 
     public static final String TABLE_CARDS = "cards";

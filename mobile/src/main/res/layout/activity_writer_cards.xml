@@ -35,7 +35,6 @@
         android:id="@+id/circleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/white"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -70,6 +69,7 @@
             android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
+            android:textStyle="bold"
             android:textSize="30sp"
             android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
     </android.support.design.widget.TextInputLayout>
@@ -94,13 +94,14 @@
             style="@style/TextInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="абвгдеёжзийклмнопрстуфхцчшщъыьэюя АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
             android:ems="10"
             android:hint="@string/russian"
             android:inputType="textCapSentences|textAutoCorrect"
             android:selectAllOnFocus="true"
             android:textAlignment="center"
-            android:textSize="30sp"
-            android:digits="абвгдеёжзийклмнопрстуфхцчшщъыьэюя АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"/>
+            android:textStyle="bold"
+            android:textSize="30sp" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
