@@ -42,9 +42,9 @@ public class CardReader extends AppCompatActivity {
     private Cards cards;
 
     @ViewById(R.id.card)
-    TextView textView;
+    AutoResizeTextView textView;
     @ViewById(R.id.card_edit_view)
-    EditText cardEditView;
+    AutoResizeEditText cardEditView;
     @ViewById(R.id.cardTextViewSwitcher)
     ViewSwitcher cardSwitchView;
     @ViewById(R.id.playWord)
@@ -153,10 +153,8 @@ public class CardReader extends AppCompatActivity {
         return switcher;
     }
 
-    private void resolveVisibilityForFAB(EditText view) {
-        if (view.getText() != null) {
     private void resolveVisibilityForFAB(AutoResizeEditText view) {
-        if (!StringUtils.isEmpty(view.getText())) {
+        if (view.getText() != null) {
             Utils.resolveVisibilityForFAB((FloatingActionButton) findViewById(R.id.confirmCardFAB), View.VISIBLE);
         } else {
             Utils.showSnackBar(view.getContext(), "Word is empty");

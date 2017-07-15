@@ -65,7 +65,7 @@
         android:layout_marginRight="16dp"
         android:clickable="true"
         android:onClick="onClickEditCard"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:backgroundTint="@color/bright_green"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -112,12 +112,12 @@
 
     <ImageButton
         android:id="@+id/playWord"
-        android:layout_width="69dp"
-        android:layout_height="67dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:background="@color/bright_green"
         android:scaleType="fitXY"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="@+id/cardTextViewSwitcher"
         app:layout_constraintTop_toTopOf="@+id/cardTextViewSwitcher"
         app:srcCompat="@mipmap/vinyl" />
