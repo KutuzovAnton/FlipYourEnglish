@@ -28,13 +28,19 @@ public class Utils {
 
     public static final String DATABASE_NAME = "core.db";
 
-    public static void translation(int size, View view, Runnable function, Long translationCardSpeed) {
+    public static void translation(int size, View view, Runnable function1, Runnable function2, Long translationCardSpeed) {
         int x = (int) view.getX();
         translationAnimation(size, view, translationCardSpeed).withEndAction(() -> {
             view.setX(-size);
-            function.run();
-            translationAnimation(size + x, view, translationCardSpeed);
-        });
+            if (function1 != null) {
+                function1.run();
+            }
+            translationAnimation(size + x, view, translationCardSpeed).withEndAction(() -> {
+                        if (function2 != null) {
+                            function2.run();
+                        }
+                    });
+            });
     }
 
     public static ViewPropertyAnimator translationAnimation(int size, View view, long duration) {
@@ -73,10 +79,10 @@ public class Utils {
         }
     }
 
-    public static String[] createArrayOfString(Object ...objects) {
+    public static String[] createArrayOfString(Object... objects) {
         String[] array = new String[objects.length];
         int index = 0;
-        for (Object object: objects) {
+        for (Object object : objects) {
             array[index++] = String.valueOf(object);
         }
         return array;

@@ -1,12 +1,8 @@
 package com.fye.flipyourenglish.db;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import org.androidannotations.annotations.EBean;
-
-import static com.fye.flipyourenglish.utils.Utils.DATABASE_NAME;
 
 /**
  * Created by Anton_Kutuzau on 4/18/2017.

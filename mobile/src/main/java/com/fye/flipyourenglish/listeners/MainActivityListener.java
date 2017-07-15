@@ -1,4 +1,5 @@
 package com.fye.flipyourenglish.listeners;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -24,7 +25,7 @@ import org.androidannotations.annotations.RootContext;
 public class MainActivityListener implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     @RootContext
-    protected Context activity;
+    protected Activity activity;
 
     @Override
     public void onClick(View v) {
@@ -50,8 +51,7 @@ public class MainActivityListener implements View.OnClickListener, NavigationVie
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //activity.startActivity(activity.getIntent());
+        activity.startActivity(activity.getIntent());
         return true;
     }
-
 }

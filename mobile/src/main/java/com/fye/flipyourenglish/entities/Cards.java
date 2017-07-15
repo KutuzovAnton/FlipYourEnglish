@@ -43,7 +43,7 @@ public class Cards {
         if(cards == null || cards.isEmpty()) {
             return null;
         }
-        return getCard();
+        return cards.get(indexOfCurrentCard);
     }
 
     public boolean isEmpty() {

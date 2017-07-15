@@ -13,8 +13,8 @@
 
     <ViewSwitcher
         android:id="@+id/cardTextViewSwitcher"
-        android:layout_width="300dp"
-        android:layout_height="180dp"
+        android:layout_width="361dp"
+        android:layout_height="232dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -28,8 +28,8 @@
 
         <TextView
             android:id="@+id/card"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical|center_horizontal|center"
             android:background="@drawable/card_style"
             android:gravity="center_vertical|center_horizontal|center"
@@ -40,8 +40,8 @@
 
         <EditText
             android:id="@+id/card_edit_view"
-            android:layout_width="300dp"
-            android:layout_height="180dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical|center_horizontal|center"
             android:background="@drawable/card_style"
             android:gravity="center_vertical|center_horizontal|center"
@@ -108,6 +108,18 @@
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_input_delete" />
     </android.support.design.widget.AppBarLayout>
+
+    <ImageButton
+        android:id="@+id/playWord"
+        android:layout_width="69dp"
+        android:layout_height="67dp"
+        android:background="@color/bright_green"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toLeftOf="@+id/cardTextViewSwitcher"
+        app:layout_constraintTop_toTopOf="@+id/cardTextViewSwitcher"
+        app:srcCompat="@mipmap/vinyl" />
 
 </android.support.constraint.ConstraintLayout>
 

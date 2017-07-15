@@ -1,11 +1,13 @@
 package com.fye.flipyourenglish.activities;
 
 import android.graphics.Point;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -36,7 +38,7 @@ import static android.R.drawable.ic_dialog_alert;
 @EActivity(R.layout.activity_reader_cards)
 public class CardReader extends AppCompatActivity {
 
-    private static final int ROTATION_SPEED = 1000;
+    private static final int ROTATION_SPEED = 300;
     private Cards cards;
 
     @ViewById(R.id.card)
@@ -45,8 +47,12 @@ public class CardReader extends AppCompatActivity {
     EditText cardEditView;
     @ViewById(R.id.cardTextViewSwitcher)
     ViewSwitcher cardSwitchView;
+    @ViewById(R.id.playWord)
+    ImageButton playWord;
     @Bean
     CardRepository cardRepository;
+    @Bean
+    CardSpeaker cardSpeaker;
     private boolean isTranslate = true;
 
     @AfterViews
@@ -67,26 +73,51 @@ public class CardReader extends AppCompatActivity {
         finish();
     }
 
+    @Click(R.id.playWord)
+    protected void speak() {
+        if (isTranslate) {
+            cardSpeaker.getSpeaker().setPitch(0.9f);
+            cardSpeaker.getSpeaker().speak(cards.getCurrent().getWordA().getWord(), TextToSpeech.QUEUE_FLUSH, null, null);
+        } else {
+            Utils.showSnackBar(this, "It's not english word", ic_dialog_alert, Gravity.BOTTOM);
+        }
+    }
+
     private void setOnTouchListener() {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         cardSwitchView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-                Utils.translation(point.x, cardSwitchView, () -> printWord(cards.getNext()), Menu.getTranslationCardSpeed());
-                isTranslate = true;
+                Utils.translation(point.x, playWord, null, null, Menu.getTranslationCardSpeed());
+                Utils.translation(point.x, cardSwitchView, () -> printWord(cards.getNext()), () -> {
+                    isTranslate = true;
+                    playWord.animate().scaleY(1).scaleX(1).setDuration(1);
+                    playWord.setVisibility(View.VISIBLE);
+                }, Menu.getTranslationCardSpeed());
             }
 
             public void onSwipeLeft() {
-                Utils.translation(-point.x, cardSwitchView, () -> printWord(cards.getPrev()), Menu.getTranslationCardSpeed());
-                isTranslate = true;
+                Utils.translation(-point.x, playWord, null, null, Menu.getTranslationCardSpeed());
+                Utils.translation(-point.x, cardSwitchView, () -> printWord(cards.getPrev()), () -> {
+                    isTranslate = true;
+                    playWord.animate().scaleY(1).scaleX(1).setDuration(1);
+                    playWord.setVisibility(View.VISIBLE);
+                }, Menu.getTranslationCardSpeed());
             }
 
             public void onClick() {
-                isTranslate = !isTranslate;
-                cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
-                    cardSwitchView.setRotationX(isTranslate ? 270 : -270);
-                    printWord(cards.getCurrent());
-                    cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED);
+                playWord.animate().scaleY(0).scaleX(0).setDuration(100).withEndAction(() -> {
+                    playWord.setVisibility(View.INVISIBLE);
+                    isTranslate = !isTranslate;
+                    cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
+                        cardSwitchView.setRotationX(isTranslate ? 270 : -270);
+                        printWord(cards.getCurrent());
+                        cardSwitchView.animate().rotationXBy(isTranslate ? 90 : -90).setDuration(ROTATION_SPEED).withEndAction(() -> {
+                            if (isTranslate) {
+                                playWord.animate().scaleY(1).scaleX(1).setDuration(100).withStartAction(() -> playWord.setVisibility(View.VISIBLE));
+                            }
+                        });
+                    });
                 });
             }
         });
@@ -97,6 +128,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     public void onClickEditCard(View view) {
+        playWord.setVisibility(View.INVISIBLE);
         ViewSwitcher switcher = switchAndGetTextView(view);
         EditText cardEditView = (EditText) switcher.findViewById(R.id.card_edit_view);
         TextView cardView = (TextView) switcher.findViewById(R.id.card);
@@ -104,6 +136,7 @@ public class CardReader extends AppCompatActivity {
     }
 
     public void onClickConfirmText(View view) {
+        playWord.setVisibility(View.VISIBLE);
         ViewSwitcher viewSwitcher = switchAndGetTextView(textView);
         EditText cardEditView = (EditText) viewSwitcher.findViewById(R.id.card_edit_view);
         ((TextView) viewSwitcher.findViewById(R.id.card)).setText(cardEditView.getText().toString());
@@ -135,5 +168,7 @@ public class CardReader extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         cardRepository.close();
+        cardSpeaker.getSpeaker().stop();
+        cardSpeaker.getSpeaker().shutdown();
     }
 }

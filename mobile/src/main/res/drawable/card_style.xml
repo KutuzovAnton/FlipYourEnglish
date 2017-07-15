@@ -5,13 +5,14 @@
             <stroke
                 android:width="@dimen/border"
                 android:color="@color/bright_green" />
-
             <gradient
-                android:centerY="0.0"
+                android:centerY="0.9"
+                android:centerX="0.9"
+                android:type="radial"
+                android:startColor="@color/less_bright_green"
                 android:endColor="@color/bright_green"
-                android:gradientRadius="@integer/gradient_radius"
-                android:startColor="@color/bright_green"
-                android:type="radial"></gradient>
+                android:gradientRadius="100"
+                />
         </shape>
     </item>
 

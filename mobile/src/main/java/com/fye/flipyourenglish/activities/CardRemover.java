@@ -66,11 +66,11 @@ public class CardRemover extends AppCompatActivity {
                 .build();
         textView.setOnTouchListener(new OnSwipeTouchListener(this) {
             public void onSwipeRight() {
-                Utils.translation(point.x, textView, () -> removeCard(textView), Menu.getTranslationCardSpeed());
+                Utils.translation(point.x, textView, () -> removeCard(textView), null, Menu.getTranslationCardSpeed());
             }
 
             public void onSwipeLeft() {
-                Utils.translation(-point.x, textView, () -> removeCard(textView), Menu.getTranslationCardSpeed());
+                Utils.translation(-point.x, textView, () -> removeCard(textView), null, Menu.getTranslationCardSpeed());
             }
         });
         return textView;

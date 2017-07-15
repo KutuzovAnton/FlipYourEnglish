@@ -13,6 +13,7 @@ import android.widget.Spinner;
 
 import com.fye.flipyourenglish.R;
 import com.fye.flipyourenglish.activities.LanguageChanger;
+import com.fye.flipyourenglish.activities.LanguageChanger_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -83,7 +84,7 @@ public class Menu {
 
     private void initLanguage() {
         navigationView.getMenu().findItem(R.id.menu_language).setOnMenuItemClickListener(item -> {
-            activity.startActivity(new Intent(activity, LanguageChanger.class));
+            activity.startActivity(new Intent(activity, LanguageChanger_.class));
             return true;
         });
     }
