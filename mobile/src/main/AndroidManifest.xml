@@ -8,20 +8,39 @@
     <uses-permission android:name="android.permission.SET_DEBUG_APP" />
 
     <!-- DATA BASE -->
-    <meta-data android:name="DATABASE" android:value="core.db" />
-    <meta-data android:name="VERSION" android:value="1" />
-    <meta-data android:name="QUERY_LOG" android:value="true" />
-    <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.fye.flipyourenglish" />
+    <meta-data
+        android:name="DATABASE"
+        android:value="core.db" />
+    <meta-data
+        android:name="VERSION"
+        android:value="1" />
+    <meta-data
+        android:name="QUERY_LOG"
+        android:value="true" />
+    <meta-data
+        android:name="DOMAIN_PACKAGE_NAME"
+        android:value="com.fye.flipyourenglish" />
 
     <!--TODO be careful, don't forget to remove android:debuggable to "false" value-->
     <application
         android:allowBackup="true"
+        android:debuggable="true"
         android:icon="@mipmap/en_ru"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/en_ru"
         android:supportsRtl="true"
-        android:theme="@style/appTheme"
-        android:debuggable="true">
+        android:theme="@style/appTheme">
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,16 +49,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardReader_"
-                  android:parentActivityName=".MainActivity_">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".activities.CardWriter_"
+        <activity
+            android:name=".activities.CardReader_"
             android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +59,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardRemover_"
+        <activity
+            android:name=".activities.CardWriter_"
             android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +69,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CardSelector_"
+        <activity
+            android:name=".activities.CardRemover_"
             android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +79,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LanguageChanger_"
+        <activity
+            android:name=".activities.CardSelector_"
+            android:parentActivityName=".MainActivity_">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.LanguageChanger_"
             android:parentActivityName=".MainActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
